@@ -5,7 +5,6 @@ import android.graphics.Typeface;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.constraintlayout.widget.Barrier;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
@@ -19,73 +18,111 @@ import static java.text.MessageFormat.format;
 public class GameTableView {
 
     private final Context mContext;
-    private final ConstraintLayout mLayout;
+    private final ConstraintLayout mGameTableLayout;
+    private final ConstraintLayout mTotalsLayout;
 
-    private final HashMap<String, Integer> players = new HashMap<>();
-    private final List<List<TextView>> rounds = new ArrayList<>();
-    private final List<Barrier> barriers = new ArrayList<>();
+    private final HashMap<String, Integer> mPlayers = new HashMap<>();
+    private final List<List<TextView>> mGameTable = new ArrayList<>();
+    private final List<TextView> mTotals = new ArrayList<>();
 
-    public GameTableView(ConstraintLayout layout) {
-        mLayout = layout;
-        mContext = mLayout.getContext();
+    public GameTableView(ConstraintLayout gameTableLayout, ConstraintLayout totalsLayout) {
+        mGameTableLayout = gameTableLayout;
+        mTotalsLayout = totalsLayout;
+        mContext = mGameTableLayout.getContext();
     }
 
-    public void put(String player, int round, int points) {
+    public void put(String player, int round, int points, int totalPoints) {
         int column = getPlayerColumn(player);
+
         TextView cell = getCell(player, column, round);
-        cell.setText(format("{0}{1}",
-                padWithSpaces("" + points, 6),
-                points < 50 ? "*" : " "));
+        cell.setText(padWithSpaces((points < 50 ? "*" : " ") + points, 7));
+
+        TextView totalCell = getTotalCell(column);
+        totalCell.setText(padWithSpaces(totalPoints, 7));
     }
+
 
     private int getPlayerColumn(String player) {
-        players.putIfAbsent(player, players.size());
-        return players.get(player);
+        mPlayers.putIfAbsent(player, mPlayers.size());
+        return mPlayers.get(player);
     }
 
     private TextView getCell(String player, int column, int round) {
-        if (rounds.size() <= column)
-            rounds.add(column, new ArrayList<>());
-
-        return rounds.get(column).size() > round ?
-                rounds.get(column).get(round) :
+        if (mGameTable.size() <= column) mGameTable.add(column, new ArrayList<>());
+        return mGameTable.get(column).size() > round ?
+                mGameTable.get(column).get(round) :
                 createCell(player, column, round);
     }
 
     private TextView createCell(String player, int column, int round) {
-        TextView cell = new TextView(mContext);
-        cell.setId(View.generateViewId());
-        cell.setTypeface(Typeface.MONOSPACE);
-        cell.setTextSize(16);
-        if (round == 0)  {
-            cell.setText(padWithSpaces(player, 7));
-            cell.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
-        }
-        mLayout.addView(cell);
-
-        rounds.get(column).add(round,
-                constrainCell(cell, player, column, round));
-
+        TextView cell = round == 0 ?
+                createHeaderTextView(mGameTableLayout, player) : createRegularTextView(mGameTableLayout);
+        mGameTable.get(column).add(round, constrainCell(cell, player, column, round));
         return cell;
     }
 
 
-    private TextView constrainCell(TextView cell, String player, int column, int round) {
+    private TextView constrainCell(TextView current, String player, int column, int round) {
         ConstraintSet constraintSet = new ConstraintSet();
-        constraintSet.clone(mLayout);
+        constraintSet.clone(mGameTableLayout);
 
         if (round > 0) {
             TextView top = getCell(player, column, round - 1);
-            constraintSet.connect(cell.getId(), TOP, top.getId(), BOTTOM, 0);
+            constraintSet.connect(current.getId(), TOP, top.getId(), BOTTOM);
         }
+
         if (column > 0) {
             TextView left = getCell(player, column - 1, round);
-            constraintSet.connect(cell.getId(), START, left.getId(), END, 5);
+            constraintSet.connect(current.getId(), START, left.getId(), END, 5);
         }
 
-        constraintSet.applyTo(mLayout);
+        constraintSet.applyTo(mGameTableLayout);
 
-        return cell;
+        return current;
+    }
+
+    private TextView getTotalCell(int column) {
+        return mTotals.size() > column ? mTotals.get(column) : createTotalCell(column);
+    }
+
+    private TextView createTotalCell(int column) {
+        TextView playerTotalCell = createHeaderTextView(mTotalsLayout, "SUM");
+        mTotals.add(column, constrainTotalCell(playerTotalCell, column));
+        return playerTotalCell;
+    }
+
+    private TextView constrainTotalCell(TextView current, int column) {
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(mTotalsLayout);
+
+        if (column > 0) {
+            TextView left = getTotalCell(column - 1);
+            constraintSet.connect(current.getId(), START, left.getId(), END, 5);
+        }
+
+        constraintSet.applyTo(mTotalsLayout);
+
+        return current;
+    }
+
+    private TextView createHeaderTextView(ConstraintLayout layout, String text) {
+        TextView headerTextView = createRegularTextView(layout);
+        headerTextView.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
+        headerTextView.setText(padWithSpaces(text, 7));
+        return headerTextView;
+    }
+
+    private TextView createRegularTextView(ConstraintLayout layout) {
+        TextView textView = new TextView(mContext);
+        textView.setId(View.generateViewId());
+        textView.setTextSize(16);
+        textView.setTypeface(Typeface.MONOSPACE);
+        layout.addView(textView);
+        return textView;
+    }
+
+    private String padWithSpaces(int input, int length) {
+        return padWithSpaces(Integer.toString(input), length);
     }
 
     private String padWithSpaces(String input, int length) {

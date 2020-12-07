@@ -36,39 +36,37 @@ public class GameTableFragment extends Fragment {
         });
 
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        fab.setOnClickListener(view1 -> Snackbar.make(view1, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show());
 
 
-        GameTableView gameTableView = new GameTableView((ConstraintLayout) view);
+        ConstraintLayout gameTableLayout = getActivity().findViewById(R.id.gameTableLayout);
+        ConstraintLayout playerTotalsLayout = getActivity().findViewById(R.id.playerTotalsLayout);
+        GameTableView gameTableView = new GameTableView(gameTableLayout, playerTotalsLayout);
+
 //        GameTableModel gameTable = new GameTableModel();
 
-        gameTableView.put("dimi", 1, 3);
-        gameTableView.put("dimi", 2, 40);
-        gameTableView.put("dimi", 3, 45);
-        gameTableView.put("dimi", 4, 50);
-        gameTableView.put("dimi", 5, 105);
-        gameTableView.put("suzan", 1, 105);
-        gameTableView.put("suzan", 2, 10);
-        gameTableView.put("suzan", 3, 105);
-        gameTableView.put("suzan", 4, 5);
-        gameTableView.put("suzan", 5, 105);
-        gameTableView.put("rob", 1, 105);
-        gameTableView.put("rob", 2, 10);
-        gameTableView.put("rob", 3, 105);
-        gameTableView.put("rob", 4, 5);
-        gameTableView.put("rob", 5, 105);
-        gameTableView.put("desi", 1, 105);
-        gameTableView.put("desi", 2, 10);
-        gameTableView.put("desi", 3, 105);
-        gameTableView.put("desi", 4, 5);
-        gameTableView.put("desi", 5, 105);
-        gameTableView.put("mari", 5, 105);
-        gameTableView.put("monica", 5, 105);
+        gameTableView.put("dimi", 1, 3, 200);
+        gameTableView.put("dimi", 2, 40, 200);
+        gameTableView.put("dimi", 3, 45, 200);
+        gameTableView.put("dimi", 4, 50, 200);
+        gameTableView.put("dimi", 5, 105, 200);
+        gameTableView.put("suzan", 1, 105, 200);
+        gameTableView.put("suzan", 2, 10, 200);
+        gameTableView.put("suzan", 3, 105, 200);
+        gameTableView.put("suzan", 4, 5, 200);
+        gameTableView.put("suzan", 5, 105, 200);
+        gameTableView.put("rob", 1, 105, 200);
+        gameTableView.put("rob", 2, 10, 200);
+        gameTableView.put("rob", 3, 105, 200);
+        gameTableView.put("rob", 4, 5, 200);
+        gameTableView.put("rob", 5, 105, 200);
+        gameTableView.put("desi", 1, 105, 200);
+        gameTableView.put("desi", 2, 10, 200);
+        gameTableView.put("desi", 3, 105, 200);
+        gameTableView.put("desi", 4, 5, 200);
+        gameTableView.put("desi", 5, 105, 200);
+        gameTableView.put("mari", 5, 105, 200);
+        gameTableView.put("monica", 5, 105, 200);
     }
 }
