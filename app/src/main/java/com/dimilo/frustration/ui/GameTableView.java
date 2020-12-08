@@ -1,5 +1,6 @@
 package com.dimilo.frustration.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.View;
@@ -8,37 +9,44 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import com.dimilo.frustration.R;
 import com.dimilo.frustration.model.PlayerRound;
 import com.dimilo.frustration.model.PlayerTotal;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import static androidx.constraintlayout.widget.ConstraintSet.*;
-import static java.text.MessageFormat.format;
 
 public class GameTableView {
+
+    private static final int COLUMN_WIDTH = 7;
 
     private final Context mContext;
     private final ConstraintLayout mGameTableLayout;
     private final ConstraintLayout mTotalsLayout;
+//    private final ConstraintLayout mNextGameLayout;
 
     private final HashMap<String, Integer> mPlayers = new HashMap<>();
     private final List<List<TextView>> mGameTable = new ArrayList<>();
     private final List<TextView> mTotals = new ArrayList<>();
+    private final List<TextView> mNextGames = new ArrayList<>();
 
-    public GameTableView(ConstraintLayout gameTableLayout, ConstraintLayout totalsLayout) {
-        mGameTableLayout = gameTableLayout;
-        mTotalsLayout = totalsLayout;
-        mContext = mGameTableLayout.getContext();
+    public GameTableView(Activity activity) {
+        mContext = activity.getApplicationContext();
+
+        mGameTableLayout = activity.findViewById(R.id.gameTableLayout);
+        mTotalsLayout = activity.findViewById(R.id.playerTotalsLayout);
+//        mNextGameLayout = activity.findViewById(R.id.nextGamesLayout);
     }
 
     public void put(PlayerRound play) {
         int column = getPlayerColumn(play.getPlayer());
 
         TextView cell = getCell(play.getPlayer(), column, play.getRound());
-        cell.setText(padWithSpaces(play.getFormattedPoints(), 7));
+        cell.setText(padWithSpaces(play.getFormattedPoints(), COLUMN_WIDTH));
     }
 
 
@@ -46,26 +54,38 @@ public class GameTableView {
         int column = getPlayerColumn(total.getPlayer());
 
         TextView totalCell = getTotalCell(column);
-        totalCell.setText(padWithSpaces(total.getTotalPoints(), 7) + "\n" + total.getNextPlayGoal());
+        totalCell.setText(MessageFormat.format("{0}\n{1}", padWithSpaces(total.getTotalPoints(), COLUMN_WIDTH), total.getNextPlayGoal()));
     }
 
 
     private int getPlayerColumn(String player) {
-        mPlayers.putIfAbsent(player, mPlayers.size());
+        mPlayers.putIfAbsent(player, mPlayers.size() + 1);
         return mPlayers.get(player);
     }
 
     private TextView getCell(String player, int column, int round) {
-        if (mGameTable.size() <= column) mGameTable.add(column, new ArrayList<>());
+        addColumnIfAbsent(column);
         return mGameTable.get(column).size() > round ?
                 mGameTable.get(column).get(round) :
                 createCell(player, column, round);
     }
 
+    private void addColumnIfAbsent(int column) {
+        if (mGameTable.size() <= column) {
+            addColumnIfAbsent(column - 1);
+            mGameTable.add(column, new ArrayList<>());
+        }
+    }
+
     private TextView createCell(String player, int column, int round) {
-        TextView cell = round == 0 ?
-                createHeaderTextView(mGameTableLayout, player) : createRegularTextView(mGameTableLayout);
+        TextView cell = column == 0 ?
+                createRoundNumberTextView(mGameTableLayout, round) :
+                round == 0 ?
+                        createHeaderTextView(mGameTableLayout, player) :
+                        createRegularTextView(mGameTableLayout);
+
         mGameTable.get(column).add(round, constrainCell(cell, player, column, round));
+
         return cell;
     }
 
@@ -114,19 +134,28 @@ public class GameTableView {
     }
 
     private TextView createHeaderTextView(ConstraintLayout layout, String text) {
-        TextView headerTextView = createRegularTextView(layout);
-        headerTextView.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
-        headerTextView.setText(padWithSpaces(text, 7));
-        return headerTextView;
+        TextView header = createRegularTextView(layout);
+        header.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
+        header.setText(padWithSpaces(text, COLUMN_WIDTH));
+        return header;
+    }
+
+    private TextView createRoundNumberTextView(ConstraintLayout layout, int round) {
+        TextView roundNumber = createRegularTextView(layout);
+        roundNumber.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
+        roundNumber.setText(round == 0 ?
+                padWithSpaces("", COLUMN_WIDTH) :
+                padWithSpaces(round, COLUMN_WIDTH));
+        return roundNumber;
     }
 
     private TextView createRegularTextView(ConstraintLayout layout) {
-        TextView textView = new TextView(mContext);
-        textView.setId(View.generateViewId());
-        textView.setTextSize(16);
-        textView.setTypeface(Typeface.MONOSPACE);
-        layout.addView(textView);
-        return textView;
+        TextView regular = new TextView(mContext);
+        regular.setId(View.generateViewId());
+        regular.setTextSize(16);
+        regular.setTypeface(Typeface.MONOSPACE);
+        layout.addView(regular);
+        return regular;
     }
 
     private String padWithSpaces(int input, int length) {

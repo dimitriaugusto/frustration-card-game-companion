@@ -42,15 +42,24 @@ public class GameTableFragment extends Fragment {
                 .setAction("Action", null).show());
 
 
-        ConstraintLayout gameTableLayout = getActivity().findViewById(R.id.gameTableLayout);
-        ConstraintLayout playerTotalsLayout = getActivity().findViewById(R.id.playerTotalsLayout);
-        GameTableView gameTableView = new GameTableView(gameTableLayout, playerTotalsLayout);
+        GameTableView gameTableView = new GameTableView(getActivity());
 
 //        GameTableModel gameTable = new GameTableModel();
         PlayerRound play = new PlayerRound("dimi", 1, 30);
-        PlayerTotal total = new PlayerTotal("dimi", 60, "SET 3\nSET 4");
         gameTableView.put(play);
+        play = new PlayerRound("dimi", 2, 50);
+        gameTableView.put(play);
+
+        play = new PlayerRound("monica", 1, 60);
+        gameTableView.put(play);
+        play = new PlayerRound("monica", 2, 30);
+        gameTableView.put(play);
+
+        PlayerTotal total = new PlayerTotal("dimi", 60, "SET 3\nSET 4");
         gameTableView.put(total);
+        total = new PlayerTotal("monica", 120, "SET 3\nSET 4");
+        gameTableView.put(total);
+
 
     }
 }
