@@ -8,6 +8,9 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import com.dimilo.frustration.model.PlayerRound;
+import com.dimilo.frustration.model.PlayerTotal;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,14 +34,19 @@ public class GameTableView {
         mContext = mGameTableLayout.getContext();
     }
 
-    public void put(String player, int round, int points, int totalPoints) {
-        int column = getPlayerColumn(player);
+    public void put(PlayerRound play) {
+        int column = getPlayerColumn(play.getPlayer());
 
-        TextView cell = getCell(player, column, round);
-        cell.setText(padWithSpaces((points < 50 ? "*" : " ") + points, 7));
+        TextView cell = getCell(play.getPlayer(), column, play.getRound());
+        cell.setText(padWithSpaces(play.getFormattedPoints(), 7));
+    }
+
+
+    public void put(PlayerTotal total) {
+        int column = getPlayerColumn(total.getPlayer());
 
         TextView totalCell = getTotalCell(column);
-        totalCell.setText(padWithSpaces(totalPoints, 7));
+        totalCell.setText(padWithSpaces(total.getTotalPoints(), 7) + "\n" + total.getNextPlayGoal());
     }
 
 

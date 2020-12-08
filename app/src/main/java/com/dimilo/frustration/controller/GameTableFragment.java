@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.dimilo.frustration.R;
+import com.dimilo.frustration.model.PlayerRound;
+import com.dimilo.frustration.model.PlayerTotal;
 import com.dimilo.frustration.ui.GameTableView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -45,28 +47,10 @@ public class GameTableFragment extends Fragment {
         GameTableView gameTableView = new GameTableView(gameTableLayout, playerTotalsLayout);
 
 //        GameTableModel gameTable = new GameTableModel();
+        PlayerRound play = new PlayerRound("dimi", 1, 30);
+        PlayerTotal total = new PlayerTotal("dimi", 60, "SET 3\nSET 4");
+        gameTableView.put(play);
+        gameTableView.put(total);
 
-        gameTableView.put("dimi", 1, 3, 200);
-        gameTableView.put("dimi", 2, 40, 200);
-        gameTableView.put("dimi", 3, 45, 200);
-        gameTableView.put("dimi", 4, 50, 200);
-        gameTableView.put("dimi", 5, 105, 200);
-        gameTableView.put("suzan", 1, 105, 200);
-        gameTableView.put("suzan", 2, 10, 200);
-        gameTableView.put("suzan", 3, 105, 200);
-        gameTableView.put("suzan", 4, 5, 200);
-        gameTableView.put("suzan", 5, 105, 200);
-        gameTableView.put("rob", 1, 105, 200);
-        gameTableView.put("rob", 2, 10, 200);
-        gameTableView.put("rob", 3, 105, 200);
-        gameTableView.put("rob", 4, 5, 200);
-        gameTableView.put("rob", 5, 105, 200);
-        gameTableView.put("desi", 1, 105, 200);
-        gameTableView.put("desi", 2, 10, 200);
-        gameTableView.put("desi", 3, 105, 200);
-        gameTableView.put("desi", 4, 5, 200);
-        gameTableView.put("desi", 5, 105, 200);
-        gameTableView.put("mari", 5, 105, 200);
-        gameTableView.put("monica", 5, 105, 200);
     }
 }
