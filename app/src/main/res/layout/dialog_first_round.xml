@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/dialog_round"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:hint="@string/hint_round"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:maxLength="2"
+        android:textAlignment="center" />
+
+    <EditText
+        android:id="@+id/dialog_player_name"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:hint="@string/hint_player_name"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:maxLength="7"
+        android:textAlignment="center" />
+
+    <EditText
+        android:id="@+id/dialog_player_points"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:hint="@string/hint_points_in_first_round"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:maxLength="3"
+        android:textAlignment="center" />
+
+</LinearLayout>

@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static androidx.constraintlayout.widget.ConstraintSet.*;
+import static com.dimilo.frustration.utils.StringUtils.posIntToString;
 
 public class GameTableView {
 
@@ -64,7 +65,7 @@ public class GameTableView {
         int column = getPlayerColumn(total.getPlayer());
 
         TextView totalCell = getFooterCell(mTotalsLayout, mTotals, column);
-        totalCell.setText(intToString(total.getTotalPoints()));
+        totalCell.setText(posIntToString(total.getTotalPoints()));
 
         TextView nextGameCell = getFooterCell(mNextGameLayout, mNextGames, column);
         nextGameCell.setText(buildNextGameText(total.getNextGame()));
@@ -72,6 +73,7 @@ public class GameTableView {
 
     private void validate(PlayerRound play) {
         validatePlayer(play);
+        validateRound(play.getRound());
     }
 
     private void validate(PlayerTotal total) {
@@ -81,6 +83,11 @@ public class GameTableView {
 
     private void validatePlayer(PlayerRound play) {
         validatePlayerName(play.getPlayer());
+    }
+
+    private void validateRound(int round) {
+        if (round <= 0)
+            throwParamException("Round number should be positive integer: " + round);
     }
 
     private void validatePlayer(PlayerTotal total) {
@@ -197,7 +204,7 @@ public class GameTableView {
     private TextView createRoundNumberTextView(ConstraintLayout layout, int round) {
         TextView roundNumber = createBoldTextView(layout);
         roundNumber.setWidth(SMALL_COLUMN_WIDTH);
-        roundNumber.setText(round == 0 ? "" : intToString(round));
+        roundNumber.setText(round == 0 ? "" : posIntToString(round));
         return roundNumber;
     }
 
@@ -216,10 +223,6 @@ public class GameTableView {
         regular.setTypeface(Typeface.MONOSPACE);
         layout.addView(regular);
         return regular;
-    }
-
-    private String intToString(int intValue) {
-        return Integer.toString(intValue);
     }
 
 }

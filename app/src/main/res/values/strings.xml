@@ -12,4 +12,11 @@
 
     <string name="welcome_text">Welcome to Frustration Card Game companion. Tap to start new game.</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="hint_player_name">Player name</string>
+    <string name="hint_points_in_first_round">Points in first round</string>
+    <string name="message_first_round">Inform player name and first round points</string>
+    <string name="button_add_player">Add player</string>
+    <string name="button_quit_adding_players">Quit adding players</string>
+    <string name="dialog_player_or_points_empty">Please inform player name and points for round 1.</string>
+    <string name="hint_round">Round</string>
 </resources>

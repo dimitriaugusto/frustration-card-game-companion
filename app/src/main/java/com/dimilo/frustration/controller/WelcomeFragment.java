@@ -1,4 +1,4 @@
-package com.dimilo.frustration;
+package com.dimilo.frustration.controller;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+
+import com.dimilo.frustration.R;
 
 public class WelcomeFragment extends Fragment {
 
