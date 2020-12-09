@@ -13,8 +13,9 @@ import com.dimilo.frustration.R;
 import com.dimilo.frustration.model.PlayerRound;
 import com.dimilo.frustration.model.PlayerTotal;
 
-import java.text.MessageFormat;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,12 +23,17 @@ import static androidx.constraintlayout.widget.ConstraintSet.*;
 
 public class GameTableView {
 
-    private static final int COLUMN_WIDTH = 7;
+    private static final int COLUMN_WIDTH = 180;
+    private static final int MAX_TEXT_LENGTH = 7;
+
+    private static final int SMALL_COLUMN_WIDTH = 80;
+
+    private static final int TEXT_SIZE = 16;
 
     private final Context mContext;
     private final ConstraintLayout mGameTableLayout;
     private final ConstraintLayout mTotalsLayout;
-//    private final ConstraintLayout mNextGameLayout;
+    private final ConstraintLayout mNextGameLayout;
 
     private final HashMap<String, Integer> mPlayers = new HashMap<>();
     private final List<List<TextView>> mGameTable = new ArrayList<>();
@@ -37,26 +43,79 @@ public class GameTableView {
     public GameTableView(Activity activity) {
         mContext = activity.getApplicationContext();
 
-        mGameTableLayout = activity.findViewById(R.id.gameTableLayout);
-        mTotalsLayout = activity.findViewById(R.id.playerTotalsLayout);
-//        mNextGameLayout = activity.findViewById(R.id.nextGamesLayout);
+        mGameTableLayout = activity.findViewById(R.id.game_table_layout);
+        mTotalsLayout = activity.findViewById(R.id.totals_layout);
+        mNextGameLayout = activity.findViewById(R.id.next_game_layout);
     }
 
     public void put(PlayerRound play) {
+        validate(play);
+
         int column = getPlayerColumn(play.getPlayer());
 
         TextView cell = getCell(play.getPlayer(), column, play.getRound());
-        cell.setText(padWithSpaces(play.getFormattedPoints(), COLUMN_WIDTH));
+        cell.setText(play.getFormattedPoints());
     }
 
 
     public void put(PlayerTotal total) {
+        validate(total);
+
         int column = getPlayerColumn(total.getPlayer());
 
-        TextView totalCell = getTotalCell(column);
-        totalCell.setText(MessageFormat.format("{0}\n{1}", padWithSpaces(total.getTotalPoints(), COLUMN_WIDTH), total.getNextPlayGoal()));
+        TextView totalCell = getFooterCell(mTotalsLayout, mTotals, column);
+        totalCell.setText(intToString(total.getTotalPoints()));
+
+        TextView nextGameCell = getFooterCell(mNextGameLayout, mNextGames, column);
+        nextGameCell.setText(buildNextGameText(total.getNextGame()));
     }
 
+    private void validate(PlayerRound play) {
+        validatePlayer(play);
+    }
+
+    private void validate(PlayerTotal total) {
+        validatePlayer(total);
+        validateNextGame(total.getNextGame());
+    }
+
+    private void validatePlayer(PlayerRound play) {
+        validatePlayerName(play.getPlayer());
+    }
+
+    private void validatePlayer(PlayerTotal total) {
+        validatePlayerName(total.getPlayer());
+        validatePlayerIsPlaying(total.getPlayer());
+    }
+
+    private void validatePlayerName(String player) {
+        if (player == null || player.length() > MAX_TEXT_LENGTH)
+            throwParamException("Player name is null or exceeds max length: " + player.length());
+    }
+
+    private void validatePlayerIsPlaying(String player) {
+        if (mPlayers.get(player) == null)
+            throwParamException("Player is unknown. Cannot put total: " + player);
+    }
+
+    private void validateNextGame(String[] nextGame) {
+        Arrays.stream(nextGame).forEach((hand) -> {
+            if (hand.length() > MAX_TEXT_LENGTH)
+                throwParamException("Too long hand text: " + hand);
+        });
+    }
+
+    private void throwParamException(String message) {
+        throw new InvalidParameterException(message);
+    }
+
+    private String buildNextGameText(String[] nextHands) {
+        StringBuilder nextGameText = new StringBuilder();
+        for (String hand : nextHands)
+            nextGameText.append('\n').append(hand);
+        nextGameText.deleteCharAt(0);
+        return nextGameText.toString();
+    }
 
     private int getPlayerColumn(String player) {
         mPlayers.putIfAbsent(player, mPlayers.size() + 1);
@@ -81,11 +140,9 @@ public class GameTableView {
         TextView cell = column == 0 ?
                 createRoundNumberTextView(mGameTableLayout, round) :
                 round == 0 ?
-                        createHeaderTextView(mGameTableLayout, player) :
+                        createHeaderFooterTextView(mGameTableLayout, column, player) :
                         createRegularTextView(mGameTableLayout);
-
         mGameTable.get(column).add(round, constrainCell(cell, player, column, round));
-
         return cell;
     }
 
@@ -93,79 +150,76 @@ public class GameTableView {
     private TextView constrainCell(TextView current, String player, int column, int round) {
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(mGameTableLayout);
-
         if (round > 0) {
             TextView top = getCell(player, column, round - 1);
             constraintSet.connect(current.getId(), TOP, top.getId(), BOTTOM);
         }
-
         if (column > 0) {
             TextView left = getCell(player, column - 1, round);
             constraintSet.connect(current.getId(), START, left.getId(), END, 5);
         }
-
         constraintSet.applyTo(mGameTableLayout);
-
         return current;
     }
 
-    private TextView getTotalCell(int column) {
-        return mTotals.size() > column ? mTotals.get(column) : createTotalCell(column);
+    private TextView getFooterCell(ConstraintLayout layout, List<TextView> list, int column) {
+        return list.size() > column ? list.get(column) : createFooterCell(layout, list, column);
     }
 
-    private TextView createTotalCell(int column) {
-        TextView playerTotalCell = createHeaderTextView(mTotalsLayout, "SUM");
-        mTotals.add(column, constrainTotalCell(playerTotalCell, column));
+    private TextView createFooterCell(ConstraintLayout layout, List<TextView> list, int column) {
+        TextView playerTotalCell = column == 0 ?
+                createRoundNumberTextView(layout, 0) :
+                createHeaderFooterTextView(layout, column, "");
+        list.add(column, constrainFooterCell(layout, list, playerTotalCell, column));
         return playerTotalCell;
     }
 
-    private TextView constrainTotalCell(TextView current, int column) {
+    private TextView constrainFooterCell(ConstraintLayout layout, List<TextView> list,
+                                         TextView current, int column) {
         ConstraintSet constraintSet = new ConstraintSet();
-        constraintSet.clone(mTotalsLayout);
-
+        constraintSet.clone(layout);
         if (column > 0) {
-            TextView left = getTotalCell(column - 1);
+            TextView left = getFooterCell(layout, list, column - 1);
             constraintSet.connect(current.getId(), START, left.getId(), END, 5);
         }
-
-        constraintSet.applyTo(mTotalsLayout);
-
+        constraintSet.applyTo(layout);
         return current;
     }
 
-    private TextView createHeaderTextView(ConstraintLayout layout, String text) {
-        TextView header = createRegularTextView(layout);
-        header.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
-        header.setText(padWithSpaces(text, COLUMN_WIDTH));
+    private TextView createHeaderFooterTextView(ConstraintLayout layout, int column, String text) {
+        TextView header = column == 0 ?
+                createRoundNumberTextView(layout, 0) :
+                createBoldTextView(layout);
+        header.setText(text);
         return header;
     }
 
     private TextView createRoundNumberTextView(ConstraintLayout layout, int round) {
-        TextView roundNumber = createRegularTextView(layout);
-        roundNumber.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
-        roundNumber.setText(round == 0 ?
-                padWithSpaces("", COLUMN_WIDTH) :
-                padWithSpaces(round, COLUMN_WIDTH));
+        TextView roundNumber = createBoldTextView(layout);
+        roundNumber.setWidth(SMALL_COLUMN_WIDTH);
+        roundNumber.setText(round == 0 ? "" : intToString(round));
         return roundNumber;
+    }
+
+    private TextView createBoldTextView(ConstraintLayout layout) {
+        TextView bold = createRegularTextView(layout);
+        bold.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
+        return bold;
     }
 
     private TextView createRegularTextView(ConstraintLayout layout) {
         TextView regular = new TextView(mContext);
         regular.setId(View.generateViewId());
-        regular.setTextSize(16);
+        regular.setTextSize(TEXT_SIZE);
+        regular.setWidth(COLUMN_WIDTH);
+        regular.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         regular.setTypeface(Typeface.MONOSPACE);
         layout.addView(regular);
         return regular;
     }
 
-    private String padWithSpaces(int input, int length) {
-        return padWithSpaces(Integer.toString(input), length);
-    }
-
-    private String padWithSpaces(String input, int length) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < length; i++) sb.append(" ");
-        return sb.substring(input.length()) + input;
+    private String intToString(int intValue) {
+        return Integer.toString(intValue);
     }
 
 }

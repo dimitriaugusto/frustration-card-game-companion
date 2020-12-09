@@ -14,21 +14,15 @@ public class WelcomeFragment extends Fragment {
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-        // Inflate the layout for this fragment
+            Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_welcome, container, false);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.button_first).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        view.findViewById(R.id.button_first).setOnClickListener(view1 ->
                 NavHostFragment.findNavController(WelcomeFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
-            }
-        });
+                        .navigate(R.id.action_FirstFragment_to_SecondFragment));
     }
 }
