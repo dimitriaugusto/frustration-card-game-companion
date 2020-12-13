@@ -9,14 +9,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.dimilo.frustration.R;
+import com.dimilo.frustration.model.GameTableModel;
 import com.dimilo.frustration.model.PlayerRound;
-import com.dimilo.frustration.ui.FirstRoundDialog;
-import com.dimilo.frustration.ui.GameTableView;
+import com.dimilo.frustration.model.PlayerTotal;
+import com.dimilo.frustration.view.FirstRoundDialog;
+import com.dimilo.frustration.view.GameTableView;
+import com.dimilo.frustration.view.NextRoundDialog;
+
+import static com.dimilo.frustration.utils.StringUtils.isEmpty;
 
 public class GameTableFragment extends Fragment {
 
     private GameTableView mGameTableView;
     private FirstRoundDialog mFirstRoundDialog;
+    private NextRoundDialog mNextRoundDialog;
+
+    private GameTableModel mGameTable;
 
     @Override
     public View onCreateView(
@@ -29,6 +37,8 @@ public class GameTableFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mGameTableView = new GameTableView(getActivity());
         mFirstRoundDialog = new FirstRoundDialog(getContext());
+        mNextRoundDialog = new NextRoundDialog(getContext());
+        mGameTable = new GameTableModel(getContext());
         setupClickListeners();
     }
 
@@ -38,15 +48,45 @@ public class GameTableFragment extends Fragment {
     }
 
     private void addPlay(View view) {
-        mFirstRoundDialog.show(new PlayerRound(1), play -> mGameTableView.put(play));
-        // todo next rounds. above is first
+        PlayerRound play = mGameTable.getNextPlay();
+        if (isEmpty(play.getPlayer())) addFirstRound();
+        else addNextRound(play.getRound());
+    }
+
+    private void addFirstRound() {
+        mFirstRoundDialog.show(new PlayerRound(1), this::onFirstRoundAdded);
+    }
+
+    private void onFirstRoundAdded(PlayerRound play) {
+        if (play != null) {
+            putPlayToGameTable(play);
+            addFirstRound(); // pop for next new player
+        }
+    }
+
+    private void addNextRound(int round) {
+        PlayerRound play = mGameTable.getNextPlay();
+        if (play.getRound() == round)
+            mNextRoundDialog.show(play, this::onNextRoundAdded);
+    }
+
+    private void onNextRoundAdded(PlayerRound play) {
+        PlayerTotal total = putPlayToGameTable(play);
+        updateGameTableView(play, total);
+        addNextRound(play.getRound());
+    }
+
+    private PlayerTotal putPlayToGameTable(PlayerRound play) {
+        PlayerTotal total = mGameTable.put(play);
+        return total;
+    }
+
+    private void updateGameTableView(PlayerRound play, PlayerTotal total) {
+        mGameTableView.put(play);
+        mGameTableView.put(total);
     }
 
     private void editPlay(View view) {
-    }
-
-    public interface PlayCallback {
-        void call(PlayerRound play);
     }
 
 }

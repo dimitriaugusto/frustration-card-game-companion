@@ -1,4 +1,4 @@
-package com.dimilo.frustration.ui;
+package com.dimilo.frustration.view;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -28,7 +28,7 @@ public class FirstRoundDialog extends PlaysDialogBase {
 
     @Override
     protected int getPositiveButtonTextResId() {
-        return R.string.button_add_player;
+        return R.string.button_add_player_and_points;
     }
 
     @Override

@@ -31,7 +31,7 @@
         android:layout_width="180dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:hint="@string/hint_points_in_first_round"
+        android:hint="@string/hint_points"
         android:importantForAutofill="no"
         android:inputType="number"
         android:maxLength="3"

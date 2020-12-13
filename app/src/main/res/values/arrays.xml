@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="hands_sequence">
+        <item>@array/hands_set3_set3</item>
+        <item>@array/hands_run4_set3</item>
+        <item>@array/hands_run7</item>
+        <item>@array/hands_run5_set3</item>
+        <item>@array/hands_run4_set4</item>
+        <item>@array/hands_set4_set4</item>
+        <item>@array/hands_run8</item>
+        <item>@array/hands_set5_set2</item>
+        <item>@array/hands_run9</item>
+        <item>@array/hands_set5_set5</item>
+    </array>
+
+    <string-array name="hands_set3_set3">
+        <item>Set 3</item>
+        <item>Set 3</item>
+    </string-array>
+
+    <string-array name="hands_run4_set3">
+        <item>Run 4</item>
+        <item>Set 3</item>
+    </string-array>
+
+    <string-array name="hands_run7">
+        <item>Run 7</item>
+    </string-array>
+
+    <string-array name="hands_run5_set3">
+        <item>Run 5</item>
+        <item>Set 3</item>
+    </string-array>
+
+    <string-array name="hands_run4_set4">
+        <item>Run 4</item>
+        <item>Set 4</item>
+    </string-array>
+
+    <string-array name="hands_set4_set4">
+        <item>Set 4</item>
+        <item>Set 4</item>
+    </string-array>
+
+    <string-array name="hands_run8">
+        <item>Run 8</item>
+    </string-array>
+
+    <string-array name="hands_set5_set2">
+        <item>Set 5</item>
+        <item>Set 2</item>
+    </string-array>
+
+    <string-array name="hands_run9">
+        <item>Run 9</item>
+    </string-array>
+
+    <string-array name="hands_set5_set5">
+        <item>Set 5</item>
+        <item>Set 5</item>
+    </string-array>
+
+    <string-array name="no_more_hands">
+        <item>@string/all_hands_completed</item>
+    </string-array>
+
+</resources>

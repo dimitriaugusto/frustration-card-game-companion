@@ -1,4 +1,4 @@
-package com.dimilo.frustration.ui;
+package com.dimilo.frustration.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -23,7 +23,7 @@ public abstract class PlaysDialogBase {
 
     final Context mContext;
     private AlertDialog mDialog;
-    GameTableFragment.PlayCallback mPlayCallback;
+    PlayCallback mPlayCallback;
 
     public PlaysDialogBase(Context context) {
         mContext = context;
@@ -44,7 +44,7 @@ public abstract class PlaysDialogBase {
     @StringRes
     protected abstract int getNegativeButtonTextResId();
 
-    public void show(PlayerRound play, GameTableFragment.PlayCallback playCallback) {
+    public void show(PlayerRound play, PlayCallback playCallback) {
         mPlayCallback = playCallback;
         mDialog = createAndShowDialog();
         setDefaultValues(play);
@@ -53,17 +53,19 @@ public abstract class PlaysDialogBase {
     }
 
     private AlertDialog createAndShowDialog() {
-        return new AlertDialog.Builder(mContext)
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
                 .setTitle(R.string.app_name)
                 .setMessage(getMessageResId())
                 .setView(getLayoutResId())
                 .setCancelable(false)
-                .setPositiveButton(getPositiveButtonTextResId(), null)
-                .setNegativeButton(getNegativeButtonTextResId(), (dialog, which) -> dialog.dismiss()).show();
+                .setPositiveButton(getPositiveButtonTextResId(), null);
+        if (getNegativeButtonTextResId() != 0)
+            builder.setNegativeButton(getNegativeButtonTextResId(), this::onNegativeClick);
+        return builder.show();
     }
 
     protected int getLayoutResId() {
-        return R.layout.dialog_first_round;
+        return R.layout.dialog_plays;
     }
 
     private void setDefaultValues(PlayerRound play) {
@@ -74,6 +76,11 @@ public abstract class PlaysDialogBase {
     private void customizeDialog() {
         mDialog.findViewById(R.id.dialog_round).setEnabled(isRoundEditable());
         mDialog.findViewById(R.id.dialog_player_name).setEnabled(isPlayerNameEditable());
+    }
+
+    private void onNegativeClick(DialogInterface dialogInterface, int i) {
+        dialogInterface.dismiss();
+        mPlayCallback.call(null);
     }
 
     private void setPositiveButtonListener() {
@@ -121,4 +128,9 @@ public abstract class PlaysDialogBase {
             this.dialog = dialog;
         }
     }
+
+    public interface PlayCallback {
+        void call(PlayerRound play);
+    }
+
 }

@@ -4,12 +4,12 @@ public class PlayerTotal {
 
     private String player;
     private int totalPoints;
-    private String[] nextGame;
+    private String[] currentHand;
 
-    public PlayerTotal(String player, int totalPoints, String[] nextGame) {
+    public PlayerTotal(String player, int totalPoints, String[] currentHand) {
         this.player = player;
         this.totalPoints = totalPoints;
-        this.nextGame = nextGame;
+        this.currentHand = currentHand;
     }
 
     public String getPlayer() {
@@ -20,8 +20,8 @@ public class PlayerTotal {
         return totalPoints;
     }
 
-    public String[] getNextGame() {
-        return nextGame;
+    public String[] getCurrentHand() {
+        return currentHand;
     }
 
 }

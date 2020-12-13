@@ -1,4 +1,4 @@
-package com.dimilo.frustration.ui;
+package com.dimilo.frustration.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -68,7 +68,7 @@ public class GameTableView {
         totalCell.setText(posIntToString(total.getTotalPoints()));
 
         TextView nextGameCell = getFooterCell(mNextGameLayout, mNextGames, column);
-        nextGameCell.setText(buildNextGameText(total.getNextGame()));
+        nextGameCell.setText(buildNextGameText(total.getCurrentHand()));
     }
 
     private void validate(PlayerRound play) {
@@ -78,7 +78,7 @@ public class GameTableView {
 
     private void validate(PlayerTotal total) {
         validatePlayer(total);
-        validateNextGame(total.getNextGame());
+        validateNextGame(total.getCurrentHand());
     }
 
     private void validatePlayer(PlayerRound play) {

@@ -12,8 +12,16 @@ public class PlayerRound {
         this.points = points;
     }
 
+    public PlayerRound(String player, int round) {
+        this(player, round, 0);
+    }
+
     public PlayerRound(int round) {
         this("", round, 0);
+    }
+
+    public PlayerRound() {
+        this("", 0, 0);
     }
 
     public String getPlayer() {
