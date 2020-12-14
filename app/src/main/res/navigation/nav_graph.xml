@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.dimilo.frustration.controller.WelcomeFragment"
+        android:name="com.dimilo.frustration.presenter.WelcomeFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_welcome">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.dimilo.frustration.controller.GameTableFragment"
+        android:name="com.dimilo.frustration.presenter.GameTableFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_game_table">
 

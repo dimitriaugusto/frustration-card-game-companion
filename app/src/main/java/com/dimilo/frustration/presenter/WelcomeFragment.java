@@ -1,4 +1,4 @@
-package com.dimilo.frustration.controller;
+package com.dimilo.frustration.presenter;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

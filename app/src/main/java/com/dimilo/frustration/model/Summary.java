@@ -1,12 +1,12 @@
 package com.dimilo.frustration.model;
 
-public class PlayerTotal {
+public class Summary {
 
     private String player;
     private int totalPoints;
     private String[] currentHand;
 
-    public PlayerTotal(String player, int totalPoints, String[] currentHand) {
+    public Summary(String player, int totalPoints, String[] currentHand) {
         this.player = player;
         this.totalPoints = totalPoints;
         this.currentHand = currentHand;

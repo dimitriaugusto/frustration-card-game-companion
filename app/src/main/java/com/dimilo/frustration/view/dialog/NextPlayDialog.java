@@ -1,13 +1,13 @@
-package com.dimilo.frustration.view;
+package com.dimilo.frustration.view.dialog;
 
 import android.content.Context;
 import android.widget.Toast;
 
 import com.dimilo.frustration.R;
 
-public class NextRoundDialog extends PlaysDialogBase {
+public class NextPlayDialog extends PlaysDialogBase {
 
-    public NextRoundDialog(Context context) {
+    public NextPlayDialog(Context context) {
         super(context);
     }
 
@@ -23,7 +23,7 @@ public class NextRoundDialog extends PlaysDialogBase {
 
     @Override
     protected int getMessageResId() {
-        return R.string.message_next_round;
+        return R.string.message_next_play;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class NextRoundDialog extends PlaysDialogBase {
 
     @Override
     protected int getNegativeButtonTextResId() {
-        return 0;
+        return android.R.string.cancel;
     }
 
 }

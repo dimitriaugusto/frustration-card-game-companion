@@ -17,15 +17,18 @@
     <string name="hint_points">Points</string>
     <string name="hint_round">Round</string>
 
-    <string name="message_first_round">Inform player name and first round points</string>
-    <string name="message_next_round">Inform player\'s points</string>
+    <string name="message_first_play">Inform player name and first round points</string>
+    <string name="message_next_play">Inform player\'s points</string>
+    <string name="message_edit_play">Inform round, player and new points to edit</string>
 
     <string name="button_add_player_and_points">Add player</string>
     <string name="button_add_points">Add points</string>
-    <string name="button_quit_adding_players">Quit adding players</string>
+    <string name="button_save_points">Save points</string>
+    <string name="button_no_more_players">No more players</string>
 
     <string name="dialog_player_or_points_empty">Please inform player name and points for round 1.</string>
     <string name="dialog_points_empty">Please inform points for round.</string>
+    <string name="dialog_round_or_player_or_points_empty">Please inform round, player and points to edit.</string>
 
     <string name="all_hands_completed">Finish!</string>
 

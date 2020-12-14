@@ -20,16 +20,16 @@ public class GameTableModel {
         mContext = context;
     }
 
-    public PlayerTotal put(PlayerRound play) {
+    public Summary put(Play play) {
         mPlaysTable.putIfAbsent(play.getPlayer(), new HashMap<>());
         mPlaysTable.get(play.getPlayer()).put(play.getRound(), play.getPoints());
-        return getPlayerTotal(play.getPlayer());
+        return getPlayerSummary(play.getPlayer());
     }
 
-    private PlayerTotal getPlayerTotal(String player) {
+    private Summary getPlayerSummary(String player) {
         int sum = getPlayerTotalPoints(player);
         String[] textForCurrentHand = getTextForCurrent(getPlayerCurrentHand(player));
-        return new PlayerTotal(player, sum, textForCurrentHand);
+        return new Summary(player, sum, textForCurrentHand);
     }
 
     private int getPlayerTotalPoints(String player) {
@@ -38,14 +38,14 @@ public class GameTableModel {
 
     private int getPlayerCurrentHand(String player) {
         return mPlaysTable.get(player).values().stream()
-                .mapToInt((a) -> a < MINIMUM_POINTS_FOR_UNFINISHED_HAND ? 0 : 1).sum();
+                .mapToInt((a) -> a < MINIMUM_POINTS_FOR_UNFINISHED_HAND ? 1 : 0).sum();
     }
 
     private String[] getTextForCurrent(int handNumber) {
         TypedArray handsSequence = mContext.getResources().obtainTypedArray(R.array.hands_sequence);
-        String[] currentHand = handNumber > handsSequence.length() ?
-                mContext.getResources().getStringArray(R.array.no_more_hands) :
-                ArrayUtils.toStringArray(handsSequence.getTextArray(handNumber));
+        String[] currentHand = handNumber < handsSequence.length() ?
+                ArrayUtils.toStringArray(handsSequence.getTextArray(handNumber)) :
+                mContext.getResources().getStringArray(R.array.no_more_hands);
         handsSequence.recycle();
         return currentHand;
     }
@@ -57,17 +57,17 @@ public class GameTableModel {
         return length;
     }
 
-
-    public PlayerRound getNextPlay() {
+    public Play getNextPlay() {
+        final boolean hasPlayers = !mPlaysTable.isEmpty();
         boolean playerFinished = false;
-        for (int round = 1; !playerFinished; round++) {
+        for (int round = 1; hasPlayers && !playerFinished; round++) {
             for (String player : mPlaysTable.keySet()) {
                 playerFinished |= getPlayerCurrentHand(player) > getHandsSequenceLength();
                 if (!mPlaysTable.get(player).containsKey(round))
-                    return new PlayerRound(player, round);
+                    return new Play(player, round);
             }
         }
-        return new PlayerRound();
+        return new Play();
     }
 
 }

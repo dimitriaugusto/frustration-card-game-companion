@@ -1,26 +1,26 @@
 package com.dimilo.frustration.model;
 
-public class PlayerRound {
+public class Play {
 
     private String player;
     private int round;
     private int points;
 
-    public PlayerRound(String player, int round, int points) {
+    public Play(String player, int round, int points) {
         this.player = player;
         this.round = round;
         this.points = points;
     }
 
-    public PlayerRound(String player, int round) {
+    public Play(String player, int round) {
         this(player, round, 0);
     }
 
-    public PlayerRound(int round) {
+    public Play(int round) {
         this("", round, 0);
     }
 
-    public PlayerRound() {
+    public Play() {
         this("", 0, 0);
     }
 

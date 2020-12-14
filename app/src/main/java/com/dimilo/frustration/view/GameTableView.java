@@ -10,8 +10,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.dimilo.frustration.R;
-import com.dimilo.frustration.model.PlayerRound;
-import com.dimilo.frustration.model.PlayerTotal;
+import com.dimilo.frustration.model.Play;
+import com.dimilo.frustration.model.Summary;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class GameTableView {
         mNextGameLayout = activity.findViewById(R.id.next_game_layout);
     }
 
-    public void put(PlayerRound play) {
+    public void put(Play play) {
         validate(play);
 
         int column = getPlayerColumn(play.getPlayer());
@@ -59,7 +59,7 @@ public class GameTableView {
     }
 
 
-    public void put(PlayerTotal total) {
+    public void put(Summary total) {
         validate(total);
 
         int column = getPlayerColumn(total.getPlayer());
@@ -71,17 +71,17 @@ public class GameTableView {
         nextGameCell.setText(buildNextGameText(total.getCurrentHand()));
     }
 
-    private void validate(PlayerRound play) {
+    private void validate(Play play) {
         validatePlayer(play);
         validateRound(play.getRound());
     }
 
-    private void validate(PlayerTotal total) {
+    private void validate(Summary total) {
         validatePlayer(total);
         validateNextGame(total.getCurrentHand());
     }
 
-    private void validatePlayer(PlayerRound play) {
+    private void validatePlayer(Play play) {
         validatePlayerName(play.getPlayer());
     }
 
@@ -90,7 +90,7 @@ public class GameTableView {
             throwParamException("Round number should be positive integer: " + round);
     }
 
-    private void validatePlayer(PlayerTotal total) {
+    private void validatePlayer(Summary total) {
         validatePlayerName(total.getPlayer());
         validatePlayerIsPlaying(total.getPlayer());
     }

@@ -1,4 +1,4 @@
-package com.dimilo.frustration.view;
+package com.dimilo.frustration.view.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,8 +12,7 @@ import androidx.annotation.IdRes;
 import androidx.annotation.StringRes;
 
 import com.dimilo.frustration.R;
-import com.dimilo.frustration.controller.GameTableFragment;
-import com.dimilo.frustration.model.PlayerRound;
+import com.dimilo.frustration.model.Play;
 
 import static android.text.TextUtils.isEmpty;
 import static com.dimilo.frustration.utils.StringUtils.posIntToString;
@@ -44,7 +43,7 @@ public abstract class PlaysDialogBase {
     @StringRes
     protected abstract int getNegativeButtonTextResId();
 
-    public void show(PlayerRound play, PlayCallback playCallback) {
+    public void show(Play play, PlayCallback playCallback) {
         mPlayCallback = playCallback;
         mDialog = createAndShowDialog();
         setDefaultValues(play);
@@ -53,22 +52,21 @@ public abstract class PlaysDialogBase {
     }
 
     private AlertDialog createAndShowDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+        return new AlertDialog.Builder(mContext)
                 .setTitle(R.string.app_name)
                 .setMessage(getMessageResId())
                 .setView(getLayoutResId())
                 .setCancelable(false)
-                .setPositiveButton(getPositiveButtonTextResId(), null);
-        if (getNegativeButtonTextResId() != 0)
-            builder.setNegativeButton(getNegativeButtonTextResId(), this::onNegativeClick);
-        return builder.show();
+                .setNegativeButton(getNegativeButtonTextResId(), this::onNegativeClick)
+                .setPositiveButton(getPositiveButtonTextResId(), null)
+                .show();
     }
 
     protected int getLayoutResId() {
         return R.layout.dialog_plays;
     }
 
-    private void setDefaultValues(PlayerRound play) {
+    private void setDefaultValues(Play play) {
         ((EditText) mDialog.findViewById(R.id.dialog_round)).setText(posIntToString(play.getRound()));
         ((EditText) mDialog.findViewById(R.id.dialog_player_name)).setText(play.getPlayer());
     }
@@ -80,7 +78,7 @@ public abstract class PlaysDialogBase {
 
     private void onNegativeClick(DialogInterface dialogInterface, int i) {
         dialogInterface.dismiss();
-        mPlayCallback.call(null);
+        mPlayCallback.call(new Play());
     }
 
     private void setPositiveButtonListener() {
@@ -109,8 +107,8 @@ public abstract class PlaysDialogBase {
         return !isEmpty(round) && !isEmpty(playerName) && !isEmpty(playerPoints);
     }
 
-    protected PlayerRound onValidPositiveClick() {
-        return new PlayerRound(
+    protected Play onValidPositiveClick() {
+        return new Play(
                 getDialogFieldText(R.id.dialog_player_name),
                 stringToInt(getDialogFieldText(R.id.dialog_round)),
                 stringToInt(getDialogFieldText(R.id.dialog_player_points)));
@@ -130,7 +128,7 @@ public abstract class PlaysDialogBase {
     }
 
     public interface PlayCallback {
-        void call(PlayerRound play);
+        void call(Play play);
     }
 
 }
