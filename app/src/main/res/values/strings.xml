@@ -1,17 +1,15 @@
 <resources>
+
     <string name="app_name">Frustration</string>
 
     <string name="action_welcome">Show welcome screen</string>
     <string name="action_settings">Settings</string>
 
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="welcome_fragment_label">Welcome Fragment</string>
+    <string name="game_table_fragment_label">Game Table Fragment</string>
     <string name="start_game">Start game</string>
-    <string name="previous">Previous</string>
 
-    <string name="welcome_text">Welcome to Frustration Card Game companion. Tap to start new game.</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="welcome_text">Welcome to Frustration Card Game companion app.\n\nIt will help you noting down player points with automatic totals. Just get players together and start playing.\n\nIn next screen, tap + button when first round is done. Then tap again in the end of other rounds.\n\nYou can edit points by tapping the pen button. You can also restart game tapping the trash can button.\n\nFirst hand is Set of 3 / Set of 3. Enjoy the game.</string>
 
     <string name="hint_player_name">Player name</string>
     <string name="hint_points">Points</string>
@@ -20,6 +18,7 @@
     <string name="message_first_play">Inform player name and first round points</string>
     <string name="message_next_play">Inform player\'s points</string>
     <string name="message_edit_play">Inform round, player and new points to edit</string>
+    <string name="message_confirm_reset_game">You are about to erase game data. Confirm?</string>
 
     <string name="button_add_player_and_points">Add player</string>
     <string name="button_add_points">Add points</string>

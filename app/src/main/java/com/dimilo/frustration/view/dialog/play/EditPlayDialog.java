@@ -1,4 +1,4 @@
-package com.dimilo.frustration.view.dialog;
+package com.dimilo.frustration.view.dialog.play;
 
 import android.content.Context;
 import android.widget.Toast;

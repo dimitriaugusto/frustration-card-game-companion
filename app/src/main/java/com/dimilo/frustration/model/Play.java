@@ -2,9 +2,9 @@ package com.dimilo.frustration.model;
 
 public class Play {
 
-    private String player;
-    private int round;
-    private int points;
+    private final String player;
+    private final int round;
+    private final int points;
 
     public Play(String player, int round, int points) {
         this.player = player;

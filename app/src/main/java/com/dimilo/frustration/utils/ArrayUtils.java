@@ -5,6 +5,8 @@ import java.util.Arrays;
 
 public class ArrayUtils {
 
+    public static final String[] EMPTY_STRING_ARRAY = {};
+
     public static boolean isEmpty(Object[] array) {
         return array == null || array.length == 0;
     }

@@ -8,7 +8,7 @@ import com.dimilo.frustration.utils.ArrayUtils;
 
 import java.util.HashMap;
 
-public class GameTableModel {
+public class GameTable {
 
     private static final int MINIMUM_POINTS_FOR_UNFINISHED_HAND = 50;
 
@@ -16,7 +16,7 @@ public class GameTableModel {
 
     private final HashMap<String, HashMap<Integer, Integer>> mPlaysTable = new HashMap<>();
 
-    public GameTableModel(Context context) {
+    public GameTable(Context context) {
         mContext = context;
     }
 
@@ -26,17 +26,25 @@ public class GameTableModel {
         return getPlayerSummary(play.getPlayer());
     }
 
+    public Summary putIfPresent(Play play) {
+        return mPlaysTable.containsKey(play.getPlayer()) &&
+                mPlaysTable.get(play.getPlayer()).containsKey(play.getRound()) ?
+                put(play) :
+                new Summary();
+    }
+
     private Summary getPlayerSummary(String player) {
         int sum = getPlayerTotalPoints(player);
-        String[] textForCurrentHand = getTextForCurrent(getPlayerCurrentHand(player));
-        return new Summary(player, sum, textForCurrentHand);
+        int currentHandIndex = getPlayerCurrentHandIndex(player);
+        String[] textForCurrentHand = getTextForCurrent(currentHandIndex);
+        return new Summary(player, sum, currentHandIndex, textForCurrentHand);
     }
 
     private int getPlayerTotalPoints(String player) {
         return mPlaysTable.get(player).values().stream().reduce(0, Integer::sum);
     }
 
-    private int getPlayerCurrentHand(String player) {
+    private int getPlayerCurrentHandIndex(String player) {
         return mPlaysTable.get(player).values().stream()
                 .mapToInt((a) -> a < MINIMUM_POINTS_FOR_UNFINISHED_HAND ? 1 : 0).sum();
     }
@@ -57,17 +65,21 @@ public class GameTableModel {
         return length;
     }
 
+    public boolean isGameFinished() {
+        return getNextPlay().getRound() == Integer.MAX_VALUE;
+    }
+
     public Play getNextPlay() {
         final boolean hasPlayers = !mPlaysTable.isEmpty();
         boolean playerFinished = false;
         for (int round = 1; hasPlayers && !playerFinished; round++) {
             for (String player : mPlaysTable.keySet()) {
-                playerFinished |= getPlayerCurrentHand(player) > getHandsSequenceLength();
+                playerFinished |= getPlayerCurrentHandIndex(player) >= getHandsSequenceLength();
                 if (!mPlaysTable.get(player).containsKey(round))
                     return new Play(player, round);
             }
         }
-        return new Play();
+        return playerFinished ? new Play(Integer.MAX_VALUE) : new Play();
     }
 
 }

@@ -1,19 +1,19 @@
-package com.dimilo.frustration.view.dialog;
+package com.dimilo.frustration.view.dialog.play;
 
 import android.content.Context;
 import android.widget.Toast;
 
 import com.dimilo.frustration.R;
 
-public class NextPlayDialog extends PlaysDialogBase {
+public class FirstPlayDialog extends PlaysDialogBase {
 
-    public NextPlayDialog(Context context) {
+    public FirstPlayDialog(Context context) {
         super(context);
     }
 
     @Override
     protected boolean isPlayerNameEditable() {
-        return false;
+        return true;
     }
 
     @Override
@@ -23,22 +23,22 @@ public class NextPlayDialog extends PlaysDialogBase {
 
     @Override
     protected int getMessageResId() {
-        return R.string.message_next_play;
+        return R.string.message_first_play;
     }
 
     @Override
     protected int getPositiveButtonTextResId() {
-        return R.string.button_add_points;
+        return R.string.button_add_player_and_points;
     }
 
     @Override
     protected void showNotValidMessage() {
-        Toast.makeText(mContext, R.string.dialog_points_empty, Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, R.string.dialog_player_or_points_empty, Toast.LENGTH_LONG).show();
     }
 
     @Override
     protected int getNegativeButtonTextResId() {
-        return android.R.string.cancel;
+        return R.string.button_no_more_players;
     }
 
 }

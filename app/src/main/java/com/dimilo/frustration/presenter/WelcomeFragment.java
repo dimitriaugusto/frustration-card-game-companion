@@ -25,6 +25,6 @@ public class WelcomeFragment extends Fragment {
 
         view.findViewById(R.id.button_first).setOnClickListener(view1 ->
                 NavHostFragment.findNavController(WelcomeFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_SecondFragment));
+                        .navigate(R.id.action_welcome_fragment_to_game_table_fragment));
     }
 }

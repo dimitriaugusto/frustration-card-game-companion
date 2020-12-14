@@ -14,13 +14,16 @@ import com.dimilo.frustration.model.Play;
 import com.dimilo.frustration.model.Summary;
 
 import java.security.InvalidParameterException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static androidx.constraintlayout.widget.ConstraintSet.*;
 import static com.dimilo.frustration.utils.StringUtils.posIntToString;
+import static java.text.MessageFormat.*;
 
 public class GameTableView {
 
@@ -59,16 +62,17 @@ public class GameTableView {
     }
 
 
-    public void put(Summary total) {
-        validate(total);
+    public void put(Summary summary) {
+        validate(summary);
 
-        int column = getPlayerColumn(total.getPlayer());
+        int column = getPlayerColumn(summary.getPlayer());
 
         TextView totalCell = getFooterCell(mTotalsLayout, mTotals, column);
-        totalCell.setText(posIntToString(total.getTotalPoints()));
+        totalCell.setText(format("({0}){1}",
+                summary.getCurrentHandIndex(), posIntToString(summary.getTotalPoints())));
 
         TextView nextGameCell = getFooterCell(mNextGameLayout, mNextGames, column);
-        nextGameCell.setText(buildNextGameText(total.getCurrentHand()));
+        nextGameCell.setText(buildNextGameText(summary.getCurrentHand()));
     }
 
     private void validate(Play play) {
