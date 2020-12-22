@@ -1,4 +1,4 @@
-package com.dimilo.frustration.presenter;
+package com.dimilo.frustration.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

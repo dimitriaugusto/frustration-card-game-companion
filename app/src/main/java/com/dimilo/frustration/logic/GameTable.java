@@ -1,12 +1,16 @@
-package com.dimilo.frustration.model;
+package com.dimilo.frustration.logic;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 
 import com.dimilo.frustration.R;
+import com.dimilo.frustration.model.Play;
+import com.dimilo.frustration.model.Summary;
 import com.dimilo.frustration.utils.ArrayUtils;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameTable {
 
@@ -26,7 +30,7 @@ public class GameTable {
         return getPlayerSummary(play.getPlayer());
     }
 
-    public Summary putIfPresent(Play play) {
+    public Summary edit(Play play) {
         return mPlaysTable.containsKey(play.getPlayer()) &&
                 mPlaysTable.get(play.getPlayer()).containsKey(play.getRound()) ?
                 put(play) :
@@ -63,6 +67,10 @@ public class GameTable {
         int length = handsSequence.length();
         handsSequence.recycle();
         return length;
+    }
+
+    public List<Summary> getPlayersSummaries() {
+        return mPlaysTable.keySet().stream().map((a) -> getPlayerSummary(a)).collect(Collectors.toList());
     }
 
     public boolean isGameFinished() {

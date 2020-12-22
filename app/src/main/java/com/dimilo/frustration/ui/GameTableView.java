@@ -1,4 +1,4 @@
-package com.dimilo.frustration.view;
+package com.dimilo.frustration.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,12 +14,10 @@ import com.dimilo.frustration.model.Play;
 import com.dimilo.frustration.model.Summary;
 
 import java.security.InvalidParameterException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import static androidx.constraintlayout.widget.ConstraintSet.*;
 import static com.dimilo.frustration.utils.StringUtils.posIntToString;

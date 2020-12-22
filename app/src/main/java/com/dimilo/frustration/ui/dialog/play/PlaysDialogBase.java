@@ -1,4 +1,4 @@
-package com.dimilo.frustration.view.dialog.play;
+package com.dimilo.frustration.ui.dialog.play;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

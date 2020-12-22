@@ -1,4 +1,4 @@
-package com.dimilo.frustration.presenter;
+package com.dimilo.frustration.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,17 +7,17 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.dimilo.frustration.R;
-import com.dimilo.frustration.model.GameTable;
 import com.dimilo.frustration.model.Play;
 import com.dimilo.frustration.model.Summary;
-import com.dimilo.frustration.view.dialog.ResetGameDialog;
-import com.dimilo.frustration.view.dialog.play.EditPlayDialog;
-import com.dimilo.frustration.view.dialog.play.FirstPlayDialog;
-import com.dimilo.frustration.view.dialog.play.NextPlayDialog;
-import com.dimilo.frustration.view.GameTableView;
+import com.dimilo.frustration.ui.dialog.ResetGameDialog;
+import com.dimilo.frustration.ui.dialog.play.EditPlayDialog;
+import com.dimilo.frustration.ui.dialog.play.FirstPlayDialog;
+import com.dimilo.frustration.ui.dialog.play.NextPlayDialog;
+import com.dimilo.frustration.viewmodel.GameTableViewModel;
 
 import static com.dimilo.frustration.utils.StringUtils.isEmpty;
 
@@ -29,7 +29,7 @@ public class GameTableFragment extends Fragment {
     private EditPlayDialog mEditPlayDialog;
     private ResetGameDialog mResetGameDialog;
 
-    private GameTable mGameTable;
+    private GameTableViewModel mViewModel;
 
     @Override
     public View onCreateView(
@@ -41,13 +41,18 @@ public class GameTableFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initModelAndView();
+        initViewModel();
+        initViews();
         initDialogs();
         setupClickListeners();
+        observeData();
     }
 
-    private void initModelAndView() {
-        mGameTable = new GameTable(getContext());
+    private void initViewModel() {
+        mViewModel = new ViewModelProvider(getActivity()).get(GameTableViewModel.class);
+    }
+
+    private void initViews() {
         mGameTableView = new GameTableView(getActivity());
     }
 
@@ -64,19 +69,29 @@ public class GameTableFragment extends Fragment {
         getActivity().findViewById(R.id.reset_game).setOnClickListener(this::showResetGameDialog);
     }
 
+    private void observeData() {
+        mViewModel.getAllPlays().observe(getViewLifecycleOwner(),
+                plays -> plays.forEach(mGameTableView::put));
+        mViewModel.getAllSummaries().observe(getViewLifecycleOwner(),
+                summaries -> summaries.forEach(mGameTableView::put));
+    }
+
     private void showResetGameDialog(View view) {
         mResetGameDialog.show(this::onResetConfirmed);
     }
 
     private void onResetConfirmed() {
+        mViewModel.clearGame();
         getParentFragmentManager().beginTransaction().remove(this).commit();
         NavHostFragment.findNavController(this).navigate(R.id.action_reopen_game_table_fragment);
     }
 
     private void showAddPlayDialog(View view) {
-        if (!mGameTable.isGameFinished())
-            if (isEmpty(mGameTable.getNextPlay().getPlayer())) showAddFirstPlayDialog();
-            else showAddNextPlayDialog(mGameTable.getNextPlay().getRound());
+        if (!mViewModel.isGameFinished()) {
+            Play nextPlay = mViewModel.getNextPlay();
+            if (isEmpty(nextPlay.getPlayer())) showAddFirstPlayDialog();
+            else showAddNextPlayDialog(nextPlay.getRound());
+        }
     }
 
     private void showAddFirstPlayDialog() {
@@ -91,7 +106,7 @@ public class GameTableFragment extends Fragment {
     }
 
     private void showAddNextPlayDialog(int round) {
-        Play play = mGameTable.getNextPlay();
+        Play play = mViewModel.getNextPlay();
         if (play.getRound() == round)
             mNextPlayDialog.show(play, this::onPlayerNextPlayAdded);
     }
@@ -109,15 +124,15 @@ public class GameTableFragment extends Fragment {
 
     private void onPlayEdited(Play play) {
         if (!isEmpty(play.getPlayer()))
-            updateGameTableView(play, putPlayToGameTableIfPresent(play));
+            updateGameTableView(play, editPlayInGameTable(play));
     }
 
     private Summary putPlayToGameTable(Play play) {
-        return mGameTable.put(play);
+        return mViewModel.addPlay(play);
     }
 
-    private Summary putPlayToGameTableIfPresent(Play play) {
-        return mGameTable.putIfPresent(play);
+    private Summary editPlayInGameTable(Play play) {
+        return mViewModel.updatePlay(play);
     }
 
     private void updateGameTableView(Play play, Summary total) {
