@@ -1,5 +1,7 @@
 package com.dimilo.frustration.model;
 
+import android.os.Bundle;
+
 import com.dimilo.frustration.data.PlayEntity;
 
 public class Play {
@@ -20,16 +22,30 @@ public class Play {
         this.points = playEntity.points;
     }
 
+    public Play(Bundle state) {
+        this(state.getString("player", ""),
+                state.getInt("round", -1),
+                state.getInt("points", -1));
+    }
+
+    public Bundle getState() {
+        Bundle state = new Bundle();
+        state.putString("player", this.player);
+        state.putInt("round", this.round);
+        state.putInt("points", this.points);
+        return state;
+    }
+
     public Play(String player, int round) {
-        this(player, round, 0);
+        this(player, round, -1);
     }
 
     public Play(int round) {
-        this("", round, 0);
+        this("", round, -1);
     }
 
     public Play() {
-        this("", 0, 0);
+        this("", -1, -1);
     }
 
     public String getPlayer() {

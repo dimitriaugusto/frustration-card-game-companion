@@ -41,4 +41,9 @@ public class EditPlayDialog extends PlaysDialogBase {
         return android.R.string.cancel;
     }
 
+    @Override
+    protected int getDialogShowingKeyResId() {
+        return R.string.key_edit_play_dialog_showing;
+    }
+
 }

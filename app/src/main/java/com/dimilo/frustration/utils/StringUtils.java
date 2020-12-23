@@ -6,12 +6,12 @@ public class StringUtils {
         return string == null || string.isEmpty();
     }
 
-    public static String posIntToString(int intValue) {
-        return intValue > 0 ? Integer.toString(intValue) : "";
+    public static String intToString(int intValue) {
+        return intValue > -1 ? Integer.toString(intValue) : "";
     }
 
     public static int stringToInt(String stringValue) {
-        return Integer.parseInt(stringValue);
+        return !isEmpty(stringValue) ? Integer.parseInt(stringValue) : -1;
     }
 
 }

@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static androidx.constraintlayout.widget.ConstraintSet.*;
-import static com.dimilo.frustration.utils.StringUtils.posIntToString;
+import static com.dimilo.frustration.utils.StringUtils.intToString;
 import static java.text.MessageFormat.*;
 
 public class GameTableView {
@@ -50,6 +50,12 @@ public class GameTableView {
         mNextGameLayout = activity.findViewById(R.id.next_game_layout);
     }
 
+    public void dispose() {
+        mGameTable.forEach((views) -> views.forEach(mGameTableLayout::removeView));
+        mTotals.forEach(mTotalsLayout::removeView);
+        mNextGames.forEach(mNextGameLayout::removeView);
+    }
+
     public void put(Play play) {
         validate(play);
 
@@ -67,7 +73,7 @@ public class GameTableView {
 
         TextView totalCell = getFooterCell(mTotalsLayout, mTotals, column);
         totalCell.setText(format("({0}){1}",
-                summary.getCurrentHandIndex(), posIntToString(summary.getTotalPoints())));
+                summary.getCurrentHandIndex(), intToString(summary.getTotalPoints())));
 
         TextView nextGameCell = getFooterCell(mNextGameLayout, mNextGames, column);
         nextGameCell.setText(buildNextGameText(summary.getCurrentHand()));
@@ -206,7 +212,7 @@ public class GameTableView {
     private TextView createRoundNumberTextView(ConstraintLayout layout, int round) {
         TextView roundNumber = createBoldTextView(layout);
         roundNumber.setWidth(SMALL_COLUMN_WIDTH);
-        roundNumber.setText(round == 0 ? "" : posIntToString(round));
+        roundNumber.setText(round == 0 ? "" : intToString(round));
         return roundNumber;
     }
 

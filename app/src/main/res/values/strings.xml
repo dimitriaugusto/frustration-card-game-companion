@@ -31,4 +31,9 @@
 
     <string name="all_hands_completed">Finish!</string>
 
+    <string name="key_first_play_dialog_showing" translatable="false">FirstPlayDialogShowing</string>
+    <string name="key_next_play_dialog_showing" translatable="false">NextPlayDialogShowing</string>
+    <string name="key_edit_play_dialog_showing" translatable="false">EditPlayDialogShowing</string>
+    <string name="key_reset_game_dialog_showing" translatable="false">ResetGameDialogShowing</string>
+
 </resources>

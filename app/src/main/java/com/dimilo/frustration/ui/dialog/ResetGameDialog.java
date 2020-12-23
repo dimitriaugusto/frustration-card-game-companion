@@ -21,6 +21,19 @@ public class ResetGameDialog {
         mDialog = createAndShowDialog();
     }
 
+    public boolean isShowing() {
+        return mDialog != null && mDialog.isShowing();
+    }
+
+    public void dismiss() {
+        if (mDialog != null && mDialog.isShowing())
+            mDialog.dismiss();
+    }
+
+    public String getDialogShowingKey() {
+        return mContext.getString(R.string.key_reset_game_dialog_showing);
+    }
+
     private AlertDialog createAndShowDialog() {
         return new AlertDialog.Builder(mContext)
                 .setTitle(R.string.app_name)
@@ -38,6 +51,7 @@ public class ResetGameDialog {
         dialogInterface.dismiss();
         mCallback.onResetConfirmed();
     }
+
 
     public interface BooleanDialogCallback {
         void onResetConfirmed();

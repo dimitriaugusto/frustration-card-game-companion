@@ -41,4 +41,9 @@ public class NextPlayDialog extends PlaysDialogBase {
         return android.R.string.cancel;
     }
 
+    @Override
+    protected int getDialogShowingKeyResId() {
+        return R.string.key_next_play_dialog_showing;
+    }
+
 }

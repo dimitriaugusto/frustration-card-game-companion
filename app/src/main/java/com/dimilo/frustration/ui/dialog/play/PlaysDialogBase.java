@@ -15,7 +15,7 @@ import com.dimilo.frustration.R;
 import com.dimilo.frustration.model.Play;
 
 import static android.text.TextUtils.isEmpty;
-import static com.dimilo.frustration.utils.StringUtils.posIntToString;
+import static com.dimilo.frustration.utils.StringUtils.intToString;
 import static com.dimilo.frustration.utils.StringUtils.stringToInt;
 
 public abstract class PlaysDialogBase {
@@ -43,12 +43,28 @@ public abstract class PlaysDialogBase {
     @StringRes
     protected abstract int getNegativeButtonTextResId();
 
+    @StringRes
+    protected abstract int getDialogShowingKeyResId();
+
     public void show(Play play, PlayCallback playCallback) {
         mPlayCallback = playCallback;
         mDialog = createAndShowDialog();
         setDefaultValues(play);
         customizeDialog();
         setPositiveButtonListener();
+    }
+
+    public boolean isShowing() {
+        return mDialog != null && mDialog.isShowing();
+    }
+
+    public Play getPlayState() {
+        return _getState();
+    }
+
+    public void dismiss() {
+        if (mDialog != null && mDialog.isShowing())
+            mDialog.dismiss();
     }
 
     private AlertDialog createAndShowDialog() {
@@ -67,8 +83,9 @@ public abstract class PlaysDialogBase {
     }
 
     private void setDefaultValues(Play play) {
-        ((EditText) mDialog.findViewById(R.id.dialog_round)).setText(posIntToString(play.getRound()));
+        ((EditText) mDialog.findViewById(R.id.dialog_round)).setText(intToString(play.getRound()));
         ((EditText) mDialog.findViewById(R.id.dialog_player_name)).setText(play.getPlayer());
+        ((EditText) mDialog.findViewById(R.id.dialog_player_points)).setText(intToString(play.getPoints()));
     }
 
     private void customizeDialog() {
@@ -108,14 +125,22 @@ public abstract class PlaysDialogBase {
     }
 
     protected Play onValidPositiveClick() {
+        return _getState();
+    }
+
+    private Play _getState() {
         return new Play(
                 getDialogFieldText(R.id.dialog_player_name),
                 stringToInt(getDialogFieldText(R.id.dialog_round)),
                 stringToInt(getDialogFieldText(R.id.dialog_player_points)));
     }
 
+    public String getDialogShowingKey() {
+        return mContext.getString(getDialogShowingKeyResId());
+    }
+
     String getDialogFieldText(@IdRes int editTextResId) {
-        EditText editText = ((AlertDialog) mDialog).findViewById(editTextResId);
+        EditText editText = mDialog.findViewById(editTextResId);
         return editText.getText().toString();
     }
 

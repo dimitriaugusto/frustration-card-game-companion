@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 public class GameTableViewModel extends AndroidViewModel {
 
-    private final AppRepository mAppRepository;
+    private final AppRepository mAppRepository = ((FrustrationApp) getApplication()).getRepository();
 
     private final MediatorLiveData<List<Play>> mObservablePlays = new MediatorLiveData<>();
     private final MediatorLiveData<List<Summary>> mObservableSummaries = new MediatorLiveData<>();
@@ -30,7 +30,6 @@ public class GameTableViewModel extends AndroidViewModel {
         super(application);
 
         initLogic();
-        mAppRepository = ((FrustrationApp) getApplication()).getRepository();
         initMediators();
     }
 
@@ -38,16 +37,11 @@ public class GameTableViewModel extends AndroidViewModel {
         mGameTable = new GameTable(getApplication());
     }
 
-    boolean loaded = false;
-
     private void initMediators() {
         mObservablePlays.addSource(mAppRepository.getPlays(),
                 playEntities -> {
-                    if (!loaded) {
-                        mObservablePlays.postValue(toPlays(playEntities));
-                        mObservableSummaries.postValue(initGameTable(playEntities));
-                        loaded = true;
-                    }
+                    mObservablePlays.postValue(toPlays(playEntities));
+                    mObservableSummaries.postValue(updateGameTable(playEntities));
                 }
         );
     }
@@ -56,7 +50,7 @@ public class GameTableViewModel extends AndroidViewModel {
         return playEntities.stream().map(Play::new).collect(Collectors.toList());
     }
 
-    private List<Summary> initGameTable(List<PlayEntity> playEntities) {
+    private List<Summary> updateGameTable(List<PlayEntity> playEntities) {
         playEntities.forEach((playEntity) -> mGameTable.put(new Play(playEntity)));
         return mGameTable.getPlayersSummaries();
     }
@@ -69,19 +63,19 @@ public class GameTableViewModel extends AndroidViewModel {
         return mObservableSummaries;
     }
 
-    public Summary addPlay(Play play) {
+    public void addPlay(Play play) {
+        mGameTable.put(play);
         mAppRepository.insertPlay(new PlayEntity(play.getPlayer(), play.getRound(), play.getPoints()));
-        return mGameTable.put(play);
     }
 
-    public Summary updatePlay(Play play) {
+    public void updatePlay(Play play) {
+        mGameTable.edit(play);
         mAppRepository.updatePlay(new PlayEntity(play.getPlayer(), play.getRound(), play.getPoints()));
-        return mGameTable.edit(play);
     }
 
     public void clearGame() {
-        mAppRepository.clearGame();
         initLogic();
+        mAppRepository.deleteAllPlays();
     }
 
     public boolean isGameFinished() {

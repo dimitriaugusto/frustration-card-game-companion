@@ -41,7 +41,7 @@ public class AppRepository {
         executeInWorkerThread(() -> mDatabase.playDao().update(playEntity));
     }
 
-    public void clearGame() {
+    public void deleteAllPlays() {
         executeInWorkerThread(() -> mDatabase.playDao().deleteAll());
     }
 

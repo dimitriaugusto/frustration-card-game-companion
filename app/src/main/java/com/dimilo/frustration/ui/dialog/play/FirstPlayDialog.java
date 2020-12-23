@@ -41,4 +41,9 @@ public class FirstPlayDialog extends PlaysDialogBase {
         return R.string.button_no_more_players;
     }
 
+    @Override
+    protected int getDialogShowingKeyResId() {
+        return R.string.key_first_play_dialog_showing;
+    }
+
 }
