@@ -5,6 +5,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -15,6 +18,7 @@ import com.dimilo.frustration.R;
 import com.dimilo.frustration.model.Play;
 
 import static android.text.TextUtils.isEmpty;
+import static android.view.WindowManager.LayoutParams.*;
 import static com.dimilo.frustration.utils.StringUtils.intToString;
 import static com.dimilo.frustration.utils.StringUtils.stringToInt;
 
@@ -32,6 +36,9 @@ public abstract class PlaysDialogBase {
 
     protected abstract boolean isRoundEditable();
 
+    @IdRes
+    protected abstract int getFieldToFocus();
+
     @StringRes
     protected abstract int getMessageResId();
 
@@ -48,9 +55,10 @@ public abstract class PlaysDialogBase {
 
     public void show(Play play, PlayCallback playCallback) {
         mPlayCallback = playCallback;
-        mDialog = createAndShowDialog();
+        createAndShowDialog();
         setDefaultValues(play);
         customizeDialog();
+        setFocus();
         setPositiveButtonListener();
     }
 
@@ -67,18 +75,20 @@ public abstract class PlaysDialogBase {
             mDialog.dismiss();
     }
 
-    private AlertDialog createAndShowDialog() {
-        return new AlertDialog.Builder(mContext)
+    private void createAndShowDialog() {
+        mDialog = new AlertDialog.Builder(mContext)
                 .setTitle(R.string.app_name)
                 .setMessage(getMessageResId())
                 .setView(getLayoutResId())
                 .setCancelable(false)
                 .setNegativeButton(getNegativeButtonTextResId(), this::onNegativeClick)
                 .setPositiveButton(getPositiveButtonTextResId(), null)
-                .show();
+                .create();
+        mDialog.getWindow().setSoftInputMode(SOFT_INPUT_STATE_VISIBLE);
+        mDialog.show();
     }
 
-    protected int getLayoutResId() {
+    private int getLayoutResId() {
         return R.layout.dialog_plays;
     }
 
@@ -91,6 +101,10 @@ public abstract class PlaysDialogBase {
     private void customizeDialog() {
         mDialog.findViewById(R.id.dialog_round).setEnabled(isRoundEditable());
         mDialog.findViewById(R.id.dialog_player_name).setEnabled(isPlayerNameEditable());
+    }
+
+    private void setFocus() {
+        mDialog.findViewById(getFieldToFocus()).requestFocus();
     }
 
     private void onNegativeClick(DialogInterface dialogInterface, int i) {

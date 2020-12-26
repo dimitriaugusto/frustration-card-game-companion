@@ -22,6 +22,11 @@ public class FirstPlayDialog extends PlaysDialogBase {
     }
 
     @Override
+    protected int getFieldToFocus() {
+        return R.id.dialog_player_name;
+    }
+
+    @Override
     protected int getMessageResId() {
         return R.string.message_first_play;
     }

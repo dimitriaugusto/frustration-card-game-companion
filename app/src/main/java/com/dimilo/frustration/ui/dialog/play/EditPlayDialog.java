@@ -22,6 +22,11 @@ public class EditPlayDialog extends PlaysDialogBase {
     }
 
     @Override
+    protected int getFieldToFocus() {
+        return R.id.dialog_round;
+    }
+
+    @Override
     protected int getMessageResId() {
         return R.string.message_edit_play;
     }

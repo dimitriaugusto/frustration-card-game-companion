@@ -22,6 +22,11 @@ public class NextPlayDialog extends PlaysDialogBase {
     }
 
     @Override
+    protected int getFieldToFocus() {
+        return R.id.dialog_player_points;
+    }
+
+    @Override
     protected int getMessageResId() {
         return R.string.message_next_play;
     }
