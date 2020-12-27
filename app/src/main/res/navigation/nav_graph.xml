@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/welcome_fragment"
-        android:name="com.dimilo.frustration.ui.WelcomeFragment"
+        android:name="com.dimiaug.frustration.ui.WelcomeFragment"
         android:label="@string/welcome_fragment_label"
         tools:layout="@layout/fragment_welcome">
 
@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/game_table_fragment"
-        android:name="com.dimilo.frustration.ui.GameTableFragment"
+        android:name="com.dimiaug.frustration.ui.GameTableFragment"
         android:label="@string/game_table_fragment_label"
         tools:layout="@layout/fragment_game_table">
 
