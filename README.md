@@ -14,3 +14,11 @@ code with strong separation of concerns.
 
 Currently it miserably (and purposedly) lacks clean
 architecture concepts. :-)
+
+# Play Store published app: privacy policy
+The only user data collected are players names,
+used to help user identify players points in the
+game's table. This data is stored locally in the
+smartphone and it's never transfered to other apps
+or to a server. Data is never used by the developer
+to any means.
