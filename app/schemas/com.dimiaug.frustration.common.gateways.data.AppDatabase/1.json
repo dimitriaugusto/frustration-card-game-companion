@@ -1,0 +1,47 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "d1536dd4550ed3527f10b5c8045ee2c2",
+    "entities": [
+      {
+        "tableName": "play",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`player` TEXT NOT NULL, `round` INTEGER NOT NULL, `points` INTEGER NOT NULL, PRIMARY KEY(`player`, `round`))",
+        "fields": [
+          {
+            "fieldPath": "player",
+            "columnName": "player",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "round",
+            "columnName": "round",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "points",
+            "columnName": "points",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "player",
+            "round"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd1536dd4550ed3527f10b5c8045ee2c2')"
+    ]
+  }
+}

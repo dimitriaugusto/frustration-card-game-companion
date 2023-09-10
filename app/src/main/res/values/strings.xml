@@ -35,5 +35,7 @@
     <string name="key_next_play_dialog_showing" translatable="false">NextPlayDialogShowing</string>
     <string name="key_edit_play_dialog_showing" translatable="false">EditPlayDialogShowing</string>
     <string name="key_reset_game_dialog_showing" translatable="false">ResetGameDialogShowing</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

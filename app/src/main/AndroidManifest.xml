@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dimiaug.frustration">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:name=".FrustrationApp"
@@ -12,8 +11,8 @@
         android:theme="@style/Theme.Frustration">
 
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
+            android:name=".common.entrypoints.view.MainActivity"
+            android:exported="true"
             android:theme="@style/Theme.Frustration.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
