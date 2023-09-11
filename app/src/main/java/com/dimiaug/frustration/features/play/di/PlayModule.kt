@@ -1,6 +1,5 @@
 package com.dimiaug.frustration.features.play.di
 
-import com.dimiaug.frustration.common.gateways.data.AppDatabase
 import com.dimiaug.frustration.features.play.domain.interfaces.PlayInjection
 import com.dimiaug.frustration.features.play.gateways.repo.PlayRepository
 import com.dimiaug.frustration.features.play.ui.view.GameTableView

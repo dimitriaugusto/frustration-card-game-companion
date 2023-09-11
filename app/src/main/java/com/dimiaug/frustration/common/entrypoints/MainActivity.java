@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.dimiaug.frustration.common.ui.controllers.MainController;
+import com.dimiaug.frustration.common.ui.controllers.OptionsMenuController;
 import com.dimiaug.frustration.common.domain.interfaces.CommonInjection;
 import com.dimiaug.frustration.common.ui.presenters.MainPresenter;
 
@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
             (CommonInjection) inject(CommonInjection.class).getValue();
     private final MainPresenter mPresenter =
             mCommonInjection.getMainPresenter(MainActivity.this);
-    private final MainController mController =
+    private final OptionsMenuController mController =
             mCommonInjection.getMainController(MainActivity.this, mPresenter);
 
     @Override

@@ -1,10 +1,10 @@
-package com.dimiaug.frustration.common.gateways.settings.data;
+package com.dimiaug.frustration.features.userSettings.gateways.data;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 
-@Entity(tableName = "settings", primaryKeys = {"setting"})
-public class SettingsEntity {
+@Entity(tableName = "userSettings", primaryKeys = {"setting"})
+public class UserSettingsEntity {
     @NonNull
     public String setting;
     @NonNull
@@ -13,8 +13,8 @@ public class SettingsEntity {
     public Integer intValue;
     public String stringValue;
 
-    public SettingsEntity(@NonNull String setting, @NonNull Integer type, Boolean booleanValue,
-                          Integer intValue, String stringValue) {
+    public UserSettingsEntity(@NonNull String setting, @NonNull Integer type, Boolean booleanValue,
+                              Integer intValue, String stringValue) {
         this.setting = setting;
         this.type = type;
         this.booleanValue = booleanValue;

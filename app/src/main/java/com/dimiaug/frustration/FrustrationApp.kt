@@ -3,6 +3,7 @@ package com.dimiaug.frustration
 import android.app.Application
 import com.dimiaug.frustration.common.di.commonModule
 import com.dimiaug.frustration.features.play.di.playModule
+import com.dimiaug.frustration.features.userSettings.di.userSettingModule
 import com.dimiaug.frustration.features.welcome.di.welcomeModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -19,6 +20,7 @@ class FrustrationApp : Application() {
             modules(
                 commonModule,
                 welcomeModule,
+                userSettingModule,
                 playModule
             )
         }

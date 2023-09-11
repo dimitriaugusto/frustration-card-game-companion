@@ -3,17 +3,17 @@ package com.dimiaug.frustration.common.gateways.data;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
+import com.dimiaug.frustration.features.userSettings.gateways.data.UserSettingsEntity;
 import com.dimiaug.frustration.features.play.gateways.data.PlayDao;
 import com.dimiaug.frustration.features.play.gateways.data.PlayEntity;
-import com.dimiaug.frustration.common.gateways.settings.data.SettingsDao;
-import com.dimiaug.frustration.common.gateways.settings.data.SettingsEntity;
+import com.dimiaug.frustration.features.userSettings.gateways.data.UserSettingsDao;
 
 @Database(
         entities = {
                 PlayEntity.class,
-                SettingsEntity.class
+                UserSettingsEntity.class
         },
-        version = 2
+        version = 3
 )
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -21,6 +21,6 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract PlayDao playDao();
 
-    public abstract SettingsDao settingsDao();
+    public abstract UserSettingsDao settingsDao();
 
 }

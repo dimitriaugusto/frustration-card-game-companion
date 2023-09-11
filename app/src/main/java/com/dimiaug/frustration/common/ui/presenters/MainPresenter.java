@@ -6,14 +6,19 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LiveData;
 
 import com.dimiaug.frustration.R;
+import com.dimiaug.frustration.common.domain.interfaces.Loggr;
+import com.dimiaug.frustration.features.userSettings.models.UserSettings;
 
 public class MainPresenter {
     private final AppCompatActivity mActivity;
+    private final Loggr mLogger;
 
-    public MainPresenter(AppCompatActivity activity) {
+    public MainPresenter(AppCompatActivity activity, Loggr mLogger) {
         mActivity = activity;
+        this.mLogger = mLogger;
     }
 
     public void presentWelcomeScreen() {
@@ -30,18 +35,22 @@ public class MainPresenter {
         return true;
     }
 
-    public void showYesSettingsDialog() {
-        new AlertDialog.Builder(mActivity)
+    public void showSettingsDialog(LiveData<UserSettings> userSettings) {
+        AlertDialog dialog = new AlertDialog.Builder(mActivity)
                 .setTitle("R.string.settings")
-                .setMessage("TO BE IMPLEMENTED")
+                .setMessage("LOADING")
                 .setPositiveButton("R.string.ok", null)
                 .show();
+
+        userSettings.observe(mActivity, (settings) -> {
+            dialog.setMessage(settings.toString());
+        });
     }
 
     public void showNoSettingsDialog() {
         new AlertDialog.Builder(mActivity)
                 .setTitle("R.string.settings")
-                .setMessage("NO SETTING AVAILABLE")
+                .setMessage("COULD NOT LOAD SETTINGS")
                 .setPositiveButton("R.string.ok", null)
                 .show();
     }

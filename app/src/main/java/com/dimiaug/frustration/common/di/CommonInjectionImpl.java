@@ -4,7 +4,7 @@ import static org.koin.core.parameter.ParametersHolderKt.parametersOf;
 import static org.koin.java.KoinJavaComponent.inject;
 
 import com.dimiaug.frustration.common.entrypoints.MainActivity;
-import com.dimiaug.frustration.common.ui.controllers.MainController;
+import com.dimiaug.frustration.common.ui.controllers.OptionsMenuController;
 import com.dimiaug.frustration.common.domain.interfaces.CommonInjection;
 import com.dimiaug.frustration.common.ui.presenters.MainPresenter;
 
@@ -19,9 +19,9 @@ public class CommonInjectionImpl implements CommonInjection {
     }
 
     @Override
-    public MainController getMainController(MainActivity mainActivity, MainPresenter presenter) {
-        Lazy<MainController> controller =
-                inject(MainController.class, null,
+    public OptionsMenuController getMainController(MainActivity mainActivity, MainPresenter presenter) {
+        Lazy<OptionsMenuController> controller =
+                inject(OptionsMenuController.class, null,
                         () -> parametersOf(mainActivity, presenter));
         return controller.getValue();
     }

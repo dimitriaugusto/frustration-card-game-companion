@@ -3,12 +3,12 @@ package com.dimiaug.frustration.features.play.gateways.repo;
 import androidx.lifecycle.LiveData;
 
 import com.dimiaug.frustration.common.gateways.data.AppDatabase;
+import com.dimiaug.frustration.common.gateways.repo.BaseRepository;
 import com.dimiaug.frustration.features.play.gateways.data.PlayEntity;
 
 import java.util.List;
-import java.util.concurrent.Executors;
 
-public class PlayRepository {
+public class PlayRepository extends BaseRepository {
 
     private final AppDatabase mDatabase;
 
@@ -30,10 +30,6 @@ public class PlayRepository {
 
     public void deleteAllPlays() {
         executeInWorkerThread(() -> mDatabase.playDao().deleteAll());
-    }
-
-    private void executeInWorkerThread(Runnable command) {
-        Executors.newSingleThreadExecutor().execute(command);
     }
 
 }
