@@ -1,4 +1,4 @@
-package com.dimiaug.frustration.common.entrypoints.view;
+package com.dimiaug.frustration.common.entrypoints.presenters;
 
 import android.os.Bundle;
 

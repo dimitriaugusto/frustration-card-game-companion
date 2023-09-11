@@ -1,6 +1,10 @@
-package com.dimiaug.frustration.features.play;
+package com.dimiaug.frustration.features.play.di;
 
+import static org.koin.core.parameter.ParametersHolderKt.parametersOf;
 import static org.koin.java.KoinJavaComponent.inject;
+
+import android.app.Activity;
+import android.content.Context;
 
 import com.dimiaug.frustration.features.play.domain.interfaces.PlaySingletons;
 import com.dimiaug.frustration.features.play.entrypoints.view.GameTableView;
@@ -15,11 +19,6 @@ import kotlin.Lazy;
 public class PlaySingletonsImpl implements PlaySingletons {
 
     private final Lazy<GameTableViewModel> mGameTableViewModel = inject(GameTableViewModel.class);
-    private final Lazy<GameTableView> mGameTableView = inject(GameTableView.class);
-    private final Lazy<FirstPlayDialog> mFirstPlayDialog = inject(FirstPlayDialog.class);
-    private final Lazy<NextPlayDialog> mNextPlayDialog = inject(NextPlayDialog.class);
-    private final Lazy<EditPlayDialog> mEditPlayDialog = inject(EditPlayDialog.class);
-    private final Lazy<ResetGameDialog> mResetGameDialog = inject(ResetGameDialog.class);
 
     @Override
     public GameTableViewModel getGameTableViewModel() {
@@ -27,27 +26,42 @@ public class PlaySingletonsImpl implements PlaySingletons {
     }
 
     @Override
-    public GameTableView getGameTableView() {
+    public GameTableView getGameTableView(Activity activity) {
+        Lazy<GameTableView> mGameTableView = inject(
+                GameTableView.class, null, () -> parametersOf(activity)
+        );
         return mGameTableView.getValue();
     }
 
     @Override
-    public FirstPlayDialog getFirstPlayDialog() {
+    public FirstPlayDialog getFirstPlayDialog(Context context) {
+        Lazy<FirstPlayDialog> mFirstPlayDialog = inject(
+                FirstPlayDialog.class, null, () -> parametersOf(context)
+        );
         return mFirstPlayDialog.getValue();
     }
 
     @Override
-    public NextPlayDialog getNextPlayDialog() {
+    public NextPlayDialog getNextPlayDialog(Context context) {
+        Lazy<NextPlayDialog> mNextPlayDialog = inject(
+                NextPlayDialog.class, null, () -> parametersOf(context)
+        );
         return mNextPlayDialog.getValue();
     }
 
     @Override
-    public EditPlayDialog getEditPlayDialog() {
+    public EditPlayDialog getEditPlayDialog(Context context) {
+        Lazy<EditPlayDialog> mEditPlayDialog = inject(
+                EditPlayDialog.class, null, () -> parametersOf(context)
+        );
         return mEditPlayDialog.getValue();
     }
 
     @Override
-    public ResetGameDialog getResetGameDialog() {
+    public ResetGameDialog getResetGameDialog(Context context) {
+        Lazy<ResetGameDialog> mResetGameDialog = inject(
+                ResetGameDialog.class, null, () -> parametersOf(context)
+        );
         return mResetGameDialog.getValue();
     }
 }

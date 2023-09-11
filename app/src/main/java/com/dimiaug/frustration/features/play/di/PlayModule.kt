@@ -1,6 +1,5 @@
-package com.dimiaug.frustration.features.play
+package com.dimiaug.frustration.features.play.di
 
-import androidx.lifecycle.AndroidViewModel
 import com.dimiaug.frustration.features.play.domain.interfaces.PlaySingletons
 import com.dimiaug.frustration.features.play.entrypoints.view.GameTableView
 import com.dimiaug.frustration.features.play.entrypoints.view.dialog.play.EditPlayDialog
@@ -12,19 +11,18 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val playModule = module {
-    single<PlaySingletons> {
-        PlaySingletonsImpl()
-    }
+    single<PlaySingletons> { PlaySingletonsImpl() }
+
     /* domain objects */
     //
 
     /* view objects */
-    viewModel<AndroidViewModel> { GameTableViewModel(get()) }
-    single { GameTableView(get()) }
-    single { FirstPlayDialog(get()) }
-    single { NextPlayDialog(get()) }
-    single { EditPlayDialog(get()) }
-    single { ResetGameDialog(get()) }
+    viewModel { GameTableViewModel(get()) }
+    factory { params -> GameTableView(params.get()) }
+    factory { params -> FirstPlayDialog(params.get()) }
+    factory { params -> NextPlayDialog(params.get()) }
+    factory { params -> EditPlayDialog(params.get()) }
+    factory { params -> ResetGameDialog(params.get()) }
 
     /* gateway objects */
     //

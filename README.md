@@ -25,6 +25,7 @@ to any means.
 
 # PLAN
 - introduce koin (replace with kotlin where needed to accommodate koin)
+- - work play fragment (DONE) 
 - - work viewmodel
 - - work repository
 - - work database

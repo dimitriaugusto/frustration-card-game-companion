@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/welcome_fragment"
-        android:name="com.dimiaug.frustration.common.entrypoints.view.WelcomeFragment"
+        android:name="com.dimiaug.frustration.features.welcome.entrypoints.WelcomeFragment"
         android:label="@string/welcome_fragment_label"
         tools:layout="@layout/fragment_welcome">
 

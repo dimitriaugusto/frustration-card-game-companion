@@ -11,7 +11,7 @@
         android:theme="@style/Theme.Frustration">
 
         <activity
-            android:name=".common.entrypoints.view.MainActivity"
+            android:name=".common.entrypoints.presenters.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Frustration.NoActionBar">
             <intent-filter>

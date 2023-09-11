@@ -4,7 +4,7 @@ import com.dimiaug.frustration.common.domain.interfaces.CommonSingletons
 import org.koin.dsl.module
 
 val appModule = module {
-    single<CommonSingletons> {
+     single<CommonSingletons> {
         CommonSingletonsImpl()
     }
 }

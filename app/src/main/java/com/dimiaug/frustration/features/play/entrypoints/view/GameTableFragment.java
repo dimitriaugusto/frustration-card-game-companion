@@ -1,5 +1,8 @@
 package com.dimiaug.frustration.features.play.entrypoints.view;
 
+import static com.dimiaug.frustration.common.utils.StringUtils.isEmpty;
+import static org.koin.java.KoinJavaComponent.inject;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +16,10 @@ import com.dimiaug.frustration.features.play.domain.interfaces.PlaySingletons;
 import com.dimiaug.frustration.features.play.domain.model.Play;
 import com.dimiaug.frustration.features.play.entrypoints.view.dialog.play.EditPlayDialog;
 import com.dimiaug.frustration.features.play.entrypoints.view.dialog.play.FirstPlayDialog;
+import com.dimiaug.frustration.features.play.entrypoints.view.dialog.play.NextPlayDialog;
 import com.dimiaug.frustration.features.play.entrypoints.view.dialog.play.PlaysDialogBase;
 import com.dimiaug.frustration.features.play.entrypoints.view.dialog.reset.ResetGameDialog;
-import com.dimiaug.frustration.features.play.entrypoints.view.dialog.play.NextPlayDialog;
 import com.dimiaug.frustration.features.play.entrypoints.viewmodel.GameTableViewModel;
-
-import static com.dimiaug.frustration.common.utils.StringUtils.isEmpty;
-
-import static org.koin.java.KoinJavaComponent.inject;
 
 public class GameTableFragment extends Fragment {
 
@@ -31,8 +30,7 @@ public class GameTableFragment extends Fragment {
     private NextPlayDialog mNextPlayDialog;
     private EditPlayDialog mEditPlayDialog;
     private ResetGameDialog mResetGameDialog;
-
-    private GameTableViewModel mViewModel;
+    private final GameTableViewModel mViewModel = mPlaySingletons.getGameTableViewModel();
 
     @Override
     public View onCreateView(
@@ -44,14 +42,26 @@ public class GameTableFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initViewModel();
-        initViews();
+        initView();
         initDialogs();
+
         setupClickListeners();
         observeData();
 
         if (savedInstanceState != null)
             repeatShowDialog(savedInstanceState);
+    }
+
+    private void initView() {
+        if (mGameTableView != null) mGameTableView.dispose();
+        mGameTableView = mPlaySingletons.getGameTableView(getActivity());
+    }
+
+    private void initDialogs() {
+        mFirstPlayDialog = mPlaySingletons.getFirstPlayDialog(getContext());
+        mNextPlayDialog = mPlaySingletons.getNextPlayDialog(getContext());
+        mEditPlayDialog = mPlaySingletons.getEditPlayDialog(getContext());
+        mResetGameDialog = mPlaySingletons.getResetGameDialog(getContext());
     }
 
     private void repeatShowDialog(Bundle savedInstanceState) {
@@ -86,22 +96,6 @@ public class GameTableFragment extends Fragment {
         dialog.dismiss();
     }
 
-    private void initViewModel() {
-        mViewModel = mPlaySingletons.getGameTableViewModel();
-    }
-
-    private void initViews() {
-        if (mGameTableView != null) mGameTableView.dispose();
-        mGameTableView = mPlaySingletons.getGameTableView();
-    }
-
-    private void initDialogs() {
-        mFirstPlayDialog = mPlaySingletons.getFirstPlayDialog();
-        mNextPlayDialog = mPlaySingletons.getNextPlayDialog();
-        mEditPlayDialog = mPlaySingletons.getEditPlayDialog();
-        mResetGameDialog = mPlaySingletons.getResetGameDialog();
-    }
-
     private void setupClickListeners() {
         getActivity().findViewById(R.id.add_play).setOnClickListener(this::onAddPlayClicked);
         getActivity().findViewById(R.id.edit_play).setOnClickListener(this::onEditPlayClicked);
@@ -125,7 +119,7 @@ public class GameTableFragment extends Fragment {
 
     private void onResetConfirmed() {
         mViewModel.clearGame();
-        initViews();
+        initView();
     }
 
     private void onAddPlayClicked(View view) {
