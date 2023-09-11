@@ -1,6 +1,6 @@
 package com.dimiaug.frustration.features.play.domain.model;
 
-import com.dimiaug.frustration.common.utils.ArrayUtils;
+import com.dimiaug.frustration.features.play.domain.utils.ArrayUtils;
 
 public class Summary {
 

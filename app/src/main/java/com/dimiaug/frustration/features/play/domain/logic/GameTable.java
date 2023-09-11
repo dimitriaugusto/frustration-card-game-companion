@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 
 import com.dimiaug.frustration.R;
-import com.dimiaug.frustration.common.utils.ArrayUtils;
+import com.dimiaug.frustration.features.play.domain.utils.ArrayUtils;
 import com.dimiaug.frustration.features.play.domain.model.Play;
 import com.dimiaug.frustration.features.play.domain.model.Summary;
 

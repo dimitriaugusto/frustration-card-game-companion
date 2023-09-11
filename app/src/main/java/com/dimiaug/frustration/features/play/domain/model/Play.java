@@ -2,7 +2,7 @@ package com.dimiaug.frustration.features.play.domain.model;
 
 import android.os.Bundle;
 
-import com.dimiaug.frustration.common.gateways.data.PlayEntity;
+import com.dimiaug.frustration.features.play.gateways.data.PlayEntity;
 
 public class Play {
 

@@ -10,23 +10,25 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.dimiaug.frustration.R;
+import com.dimiaug.frustration.features.welcome.ui.controllers.WelcomeController;
+import com.dimiaug.frustration.features.welcome.domain.interfaces.WelcomeInjection;
+import com.dimiaug.frustration.features.welcome.ui.presenters.WelcomePresenter;
 
 public class WelcomeFragment extends Fragment {
 
-    private final WelcomeController mController =
-            (WelcomeController) inject(WelcomeController.class).getValue();
-    private final WelcomePresenter mPresenter =
-            (WelcomePresenter) inject(WelcomePresenter.class).getValue();
+    private final WelcomeInjection mInjection =
+            (WelcomeInjection) inject(WelcomeInjection.class).getValue();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return mPresenter.present(inflater, container);
+        WelcomePresenter presenter = mInjection.getWelcomePresenter(inflater, container);
+        return presenter.present();
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mController.setListeners(view, WelcomeFragment.this);
+        WelcomeController controller = mInjection.getWelcomeController(view, this);
+        controller.setListeners();
     }
 }

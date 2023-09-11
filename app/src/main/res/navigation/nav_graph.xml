@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/game_table_fragment"
-        android:name="com.dimiaug.frustration.features.play.entrypoints.view.GameTableFragment"
+        android:name="com.dimiaug.frustration.features.play.ui.view.GameTableFragment"
         android:label="@string/game_table_fragment_label"
         tools:layout="@layout/fragment_game_table">
 
