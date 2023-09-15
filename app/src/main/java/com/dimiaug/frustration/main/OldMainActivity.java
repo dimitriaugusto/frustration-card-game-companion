@@ -1,4 +1,4 @@
-package com.dimiaug.frustration.common.entrypoints;
+package com.dimiaug.frustration.main;
 
 import static org.koin.java.KoinJavaComponent.inject;
 
@@ -12,14 +12,14 @@ import com.dimiaug.frustration.common.ui.controllers.OptionsMenuController;
 import com.dimiaug.frustration.common.domain.interfaces.CommonInjection;
 import com.dimiaug.frustration.common.ui.presenters.MainPresenter;
 
-public class MainActivity extends AppCompatActivity {
+public class OldMainActivity extends AppCompatActivity {
 
     private final CommonInjection mCommonInjection =
             (CommonInjection) inject(CommonInjection.class).getValue();
     private final MainPresenter mPresenter =
-            mCommonInjection.getMainPresenter(MainActivity.this);
+            mCommonInjection.getMainPresenter(OldMainActivity.this);
     private final OptionsMenuController mController =
-            mCommonInjection.getMainController(MainActivity.this, mPresenter);
+            mCommonInjection.getMainController(OldMainActivity.this, mPresenter);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

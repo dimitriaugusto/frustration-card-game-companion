@@ -1,4 +1,4 @@
-package com.dimiaug.frustration.features.welcome.ui.presenters;
+package com.dimiaug.frustration.features.welcome.ui.java.presenters;
 
 import android.view.LayoutInflater;
 import android.view.View;

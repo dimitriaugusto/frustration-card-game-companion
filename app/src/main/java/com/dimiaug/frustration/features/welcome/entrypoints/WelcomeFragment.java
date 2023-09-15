@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.dimiaug.frustration.features.welcome.ui.controllers.WelcomeController;
+import com.dimiaug.frustration.features.welcome.ui.java.controllers.WelcomeController;
 import com.dimiaug.frustration.features.welcome.domain.interfaces.WelcomeInjection;
-import com.dimiaug.frustration.features.welcome.ui.presenters.WelcomePresenter;
+import com.dimiaug.frustration.features.welcome.ui.java.presenters.WelcomePresenter;
 
 public class WelcomeFragment extends Fragment {
 

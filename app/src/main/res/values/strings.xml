@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">Frustration</string>
+    <string name="app_name">Frustration Companion App</string>
 
     <string name="action_welcome">Show welcome screen</string>
     <string name="action_settings">Settings</string>
@@ -10,7 +10,8 @@
     <string name="game_table_fragment_label">Game Table Fragment</string>
     <string name="start_game">Start game</string>
 
-    <string name="welcome_text">Welcome to Frustration Card Game companion app.\n\nIt will help you noting down player points with automatic totals as well as pointing next hands. Just get players together and start playing.\n\nIn next screen, tap + button when first round is done. Then tap again in the end of other rounds.\n\nYou can edit points by tapping the pen button. You can also restart game tapping the trash can button.\n\nFirst hand is Set of 3 / Set of 3. Enjoy the game.</string>
+    <string name="welcome_text">Welcome to Frustration Card Game companion app.\n\nIt will help
+        you noting down player points with automatic totals as well as pointing next hands. Just get players together and start playing.\n\nIn next screen, tap + button when first round is done. Then tap again in the end of other rounds.\n\nYou can edit points by tapping the pen button. You can also restart game tapping the trash can button.\n\nFirst hand is Set of 3 / Set of 3. Enjoy the game!</string>
 
     <string name="hint_player_name">Player name</string>
     <string name="hint_points">Points</string>
@@ -38,5 +39,6 @@
     <string name="key_reset_game_dialog_showing" translatable="false">ResetGameDialogShowing</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>
