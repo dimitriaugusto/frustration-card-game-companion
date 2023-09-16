@@ -26,7 +26,8 @@ to any means.
 # PLAN
 - introduce koin (replace with kotlin where needed to accommodate koin)
 - - work play fragment (DONE)
-- - simplify welcome page with Compose (ongoing - add app bar)
+- - simplify welcome page with Compose, topbar and options menu (DONE)
+- - navigate from view model (check option menu view model)
 - - work viewmodel
 - - work repository
 - - work database

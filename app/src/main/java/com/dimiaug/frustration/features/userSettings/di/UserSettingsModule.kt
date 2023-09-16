@@ -5,9 +5,12 @@ import com.dimiaug.frustration.features.userSettings.domain.interfaces.UserSetti
 import com.dimiaug.frustration.features.userSettings.domain.useCases.GetSettingsUseCase
 import com.dimiaug.frustration.features.userSettings.gateways.data.UserSettingsDao
 import com.dimiaug.frustration.features.userSettings.gateways.repo.UserUserSettingsRepoImpl
+import com.dimiaug.frustration.features.userSettings.ui.UserSettingsViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val userSettingModule = module {
+    viewModel { UserSettingsViewModel(get()) }
 
     /* domain */
     single {

@@ -9,7 +9,7 @@ import com.dimiaug.frustration.common.gateways.repo.BaseRepository;
 import com.dimiaug.frustration.features.userSettings.domain.interfaces.UserSettingsRepo;
 import com.dimiaug.frustration.features.userSettings.gateways.data.UserSettingsDao;
 import com.dimiaug.frustration.features.userSettings.gateways.data.UserSettingsEntity;
-import com.dimiaug.frustration.features.userSettings.models.UserSettings;
+import com.dimiaug.frustration.features.userSettings.domain.models.UserSettings;
 
 import java.util.List;
 

@@ -1,4 +1,6 @@
-package com.dimiaug.frustration.features.userSettings.models;
+package com.dimiaug.frustration.features.userSettings.domain.models;
+
+import androidx.annotation.NonNull;
 
 import com.dimiaug.frustration.features.userSettings.gateways.data.UserSettingsEntity;
 
@@ -9,6 +11,14 @@ public class UserSettings {
 
     public Integer getBoardFontSize() {
         return boardFontSize;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "UserSettings {\n" +
+                "boardFontSize=" + boardFontSize +
+                "\n}";
     }
 
     /* static methods - keep apart */
@@ -22,12 +32,5 @@ public class UserSettings {
         switch (entity.setting) {
             case "boardFontSize" -> model.boardFontSize = entity.intValue;
         }
-    }
-
-    @Override
-    public String toString() {
-        return "UserSettings{" +
-                "boardFontSize=" + boardFontSize +
-                '}';
     }
 }

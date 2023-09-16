@@ -10,7 +10,7 @@ import androidx.lifecycle.LiveData;
 
 import com.dimiaug.frustration.R;
 import com.dimiaug.frustration.common.domain.interfaces.Loggr;
-import com.dimiaug.frustration.features.userSettings.models.UserSettings;
+import com.dimiaug.frustration.features.userSettings.domain.models.UserSettings;
 
 public class MainPresenter {
     private final AppCompatActivity mActivity;

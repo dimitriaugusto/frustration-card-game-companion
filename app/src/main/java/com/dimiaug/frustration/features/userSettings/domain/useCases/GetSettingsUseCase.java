@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData;
 import com.dimiaug.frustration.common.domain.exceptions.RepoOperationException;
 import com.dimiaug.frustration.common.domain.interfaces.Loggr;
 import com.dimiaug.frustration.features.userSettings.domain.interfaces.UserSettingsRepo;
-import com.dimiaug.frustration.features.userSettings.models.UserSettings;
+import com.dimiaug.frustration.features.userSettings.domain.models.UserSettings;
 
 public class GetSettingsUseCase {
 
